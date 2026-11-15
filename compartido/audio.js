@@ -5,7 +5,7 @@
    · Una pista por sección (ver PISTA_DE): principal, misiones,
      taller y órbita. Se repite en bucle y, al cambiar de página
      dentro de la misma sección, sigue donde se quedó.
-   · Efectos: efecto('despegue' | 'bip' | 'bipFinal' | 'exito' | 'falla').
+   · Efectos: efecto('despegue' | 'bip' | 'bipFinal' | 'exito' | 'falla' | 'pieza' | 'quitar').
    · Botón de sonido junto al de idioma; la elección se recuerda.
    · Los navegadores no dejan sonar nada hasta que el jugador toca
      o teclea algo: si aún no se puede, la música espera ese gesto.
@@ -248,6 +248,8 @@ const EFECTOS = {
   bip(t0) { tono(salida, 660, t0, .13, 'square', .1); },
   bipFinal(t0) { tono(salida, 990, t0, .4, 'square', .1); },
   exito(t0) { ['C5', 'E5', 'G5', 'C6'].forEach((n, i) => tono(salida, hz(n), t0 + i * .11, i === 3 ? .45 : .12, 'square', .1)); },
+  pieza(t0) { ['E5', 'A5'].forEach((n, i) => tono(salida, hz(n), t0 + i * .06, .09, 'square', .07)); },
+  quitar(t0) { ['A4', 'E4'].forEach((n, i) => tono(salida, hz(n), t0 + i * .06, .09, 'square', .06)); },
   falla(t0) { ['E4', 'Eb4', 'D4', 'C#4'].forEach((n, i) => tono(salida, hz(n), t0 + i * .16, i === 3 ? .5 : .17, 'square', .1)); },
 };
 

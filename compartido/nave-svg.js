@@ -103,7 +103,7 @@ export function coheteSVG(o, activo, etiquetas = true, llama = false) {
   // Etiquetas
   const et2 = (y, clave, texto, listo) => `<g><path d="M${cx + 84} ${y}H${cx + 108}" stroke="${activo === clave ? '#38bdf8' : '#64748b'}" stroke-width="1.5"/><text x="${cx + 114}" y="${y + 4}" font-size="12" font-weight="800" letter-spacing="1.5" fill="${activo === clave ? '#38bdf8' : listo ? '#e6ebf4' : '#8f9db4'}">${texto}${listo ? ' ✓' : ''}</text></g>`;
   if (etiquetas) g += et2(yCo + fh * .5, 'cofia', t('COFIA'), !!co) + et2(yEt + eh / 2, 'etapa', t('FASE 2'), !!et) + et2(yCore + chh * .4, 'f1', t('FASE 1'), !!f1) + et2(base - 26, 'boosters', t('BOOSTERS'), !!bo);
-  return `<svg viewBox="${etiquetas ? '0 0 400 620' : '25 0 280 620'}" font-family="Nunito,sans-serif">${g}</svg>`;
+  return `<svg viewBox="${etiquetas ? '-35 0 400 620' : '25 0 280 620'}" font-family="Nunito,sans-serif">${g}</svg>`;
 }
 
 /* Cohete del inicio (plano técnico). La llama lleva la clase "fl" para animarla. */

@@ -1,5 +1,7 @@
 /* TALLER: se diseña el satélite (BUS, SENSORES, SOPORTE) y se arma el cohete
-   por partes (COHETE), de abajo hacia arriba. Cada clic se guarda al instante. */
+   por partes (COHETE), de abajo hacia arriba. Cada clic se guarda al instante.
+   La nave se ve en la bahía de ensamblaje: flota sobre una plataforma y, al
+   instalar una pieza, la bahía destella y suena un aviso. */
 import {PASOS, NOMBRE_CAT, pieza} from '../../datos/piezas.js';
 import {ORDEN_COHETE, parteCohete} from '../../datos/cohete.js';
 import {ORBS} from '../../datos/misiones.js';
@@ -7,7 +9,9 @@ import {calc, opciones, razonBloqueo, esCohete, MULTI, fmt} from '../../nucleo/c
 import {guardarPartida, misionDe} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {icoPieza, barrasHTML, indicadoresHTML, enlacesAyuda} from '../../compartido/componentes.js';
-import {naveSVG, coheteSVG} from '../../compartido/nave-svg.js';
+import {sateliteSVG, coheteSVG} from '../../compartido/nave-svg.js';
+import {iniciarEstrellas} from '../../compartido/estrellas.js';
+import {efecto} from '../../compartido/audio.js';
 import {activarGuia} from '../../compartido/guia.js';
 import {t} from '../../idioma/idioma.js';
 
@@ -25,6 +29,7 @@ else if (partida) iniciar();
 function iniciar() {
   const M = misionDe(partida), sel = partida.sel;
   let sobre = null;                                    // pieza bajo el cursor: {cat, id}
+  let instalada = false;                               // se acaba de poner una pieza: la bahía destella
   const corto = n => n.replace(/\s*\(.*?\)/g, '');
   const buscar = (cat, id) => esCohete(cat) ? parteCohete(cat, id) : pieza(id);
   const elegida = (cat, id) => MULTI.includes(cat) ? sel[cat].includes(id) : sel[cat] === id;
@@ -72,13 +77,27 @@ function iniciar() {
     } else {
       izquierda = paso.cats.map(c => `<h3 data-titulo="${c}">${NOMBRE_CAT[c]}${c === 'instr' ? ' · ' + t('caben {n}', {n: o.ch ? o.ch.slots : '?'}) : c === 'termico' ? ' · ' + t('puedes combinar') : ''}</h3><div class="grid" data-grid="${c}">${opciones(c, M).map(it => casilla(it, c)).join('')}</div>`).join('');
     }
+    /* Bahía de ensamblaje. El retraso negativo hace que las animaciones sigan donde iban al volver a pintar. */
+    const fase = -((performance.now() / 1000) % 6).toFixed(2);
+    const hechos = enCohete ? ORDEN_COHETE.filter(c => sel[c]).length : [sel.chasis, sel.energia, sel.instr.length, sel.termico.length, sel.adcs, sel.comms, sel.prop].filter(Boolean).length;
+    const total = enCohete ? 4 : 7;
+    const bahia = `<div class="stage ${enCohete ? 'modo-cohete' : 'modo-sat'} ${instalada ? 'instala' : ''}">
+        <div class="st-hud izq"><small>${t('BAHÍA DE ENSAMBLAJE')}</small><b>${enCohete ? t('Cohete') : t('Satélite')}</b></div>
+        <div class="st-hud der ${hechos === total ? 'listo' : ''}"><small>${enCohete ? t('PARTES') : t('SISTEMAS')}</small><b>${hechos}<i> / ${total}</i></b></div>
+        <div class="st-piso"></div>
+        ${enCohete ? '' : '<div class="st-luz"></div>'}
+        <div class="plataforma" style="animation-delay:${fase}s"><i></i><i></i><i></i></div>
+        <div class="st-nave" style="animation-delay:${fase}s">${enCohete ? coheteSVG(o, ORDEN_COHETE[partida.sub]) : `<svg viewBox="0 0 440 400">${sateliteSVG(o, 220, 215, 1.2)}</svg>`}</div>
+        <div class="st-barrido" style="animation-delay:${fase}s"></div>
+      </div>`;
+    instalada = false;
     app.innerHTML = `<button class="back" data-ir="inicio">‹ ${t('INICIO')}</button>
       <div class="top"><span class="mname">${M.n} · ${ORBS[M.orbit]}</span><div class="steps">${pestanas}</div></div>
       <div class="taller">
         <div class="resumen">${barrasHTML(o)}</div>
         <div class="gridwrap">${enCohete ? "" : `<p class="ayuda-paso">${paso.ayuda}</p>`}${izquierda}</div>
         <div class="info" id="info">${MODO_TOQUE.matches ? '' : infoHTML()}</div>
-        <div class="stage">${enCohete ? coheteSVG(o, ORDEN_COHETE[partida.sub]) : naveSVG(o)}</div>
+        ${bahia}
         <div class="right"><h3>${M.n}</h3>${barrasHTML(o)}${indicadoresHTML(o)}</div>
       </div>
       <div class="nav">${partida.paso > 0 ? `<button class="btn light" data-paso="${partida.paso - 1}">‹ ${t('ATRÁS')}</button>` : ''}
@@ -86,7 +105,10 @@ function iniciar() {
       ${enlacesAyuda()}<div class="velo"></div>`;
   }
 
+  /* Pone o quita una pieza. Avisa con un sonido y, si se puso, con un destello en la bahía. */
   function elegir(cat, id) {
+    const puesta = !elegida(cat, id) || esCohete(cat);
+    instalada = puesta; efecto(puesta ? 'pieza' : 'quitar');
     if (MULTI.includes(cat)) { const L = sel[cat], i = L.indexOf(id); i >= 0 ? L.splice(i, 1) : L.push(id); }
     else if (esCohete(cat)) {
       sel[cat] = id;
@@ -109,6 +131,7 @@ function iniciar() {
     document.querySelector('.velo').classList.remove('abierta');
   }
 
+  iniciarEstrellas({ritmo: .12, lateral: true});       // fondo: estrellas que pasan despacio
   activarEnlaces();
   app.addEventListener('click', e => {
     const accion = e.target.closest('[data-accion]');

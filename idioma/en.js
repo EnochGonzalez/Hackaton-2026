@@ -348,4 +348,11 @@ export const EN = {
   'ALERTA · Decisión pendiente': 'ALERT · Decision pending',
   'En órbita · Lista para operar': 'In orbit · Ready to operate',
   '+{n} de ciencia por mes': '+{n} science per month',
+
+  // ---------- Taller (bahía de ensamblaje) ----------
+  'BAHÍA DE ENSAMBLAJE': 'ASSEMBLY BAY',
+  'Satélite': 'Satellite',
+  'Cohete': 'Rocket',
+  'SISTEMAS': 'SYSTEMS',
+  'PARTES': 'PARTS',
 };
