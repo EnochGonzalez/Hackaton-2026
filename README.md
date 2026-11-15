@@ -1,35 +1,44 @@
 # Mission Control
 
-Juego interactivo de diseño y simulación de misiones espaciales. Hackathon 2026.
+Interactive space mission design and simulation game. Hackathon 2026.
 
-## ¿De qué trata?
-El jugador asume el papel de ingeniero de misión: recibe un contrato (objetivo, órbita, presupuesto y plazo), diseña el satélite y el cohete, lo lanza y gestiona 12 meses de operaciones. Al final recibe un reporte que explica cómo cada decisión afectó el resultado.
+## What is it about?
+The player takes on the role of a mission engineer: they receive a contract (goal, orbit, budget and deadline), design the satellite and the rocket, launch it and manage 12 months of operations. At the end they get a report that explains how each decision affected the result.
 
-## Qué problema resuelve
-Diseñar una misión espacial implica equilibrar masa, potencia, datos, presupuesto, comunicaciones y limitaciones orbitales. Para quien rara vez ve una misión completa, esos compromisos son abstractos. Mission Control los vuelve tangibles: cada pieza elegida cambia los recursos, el riesgo y la ciencia que se puede lograr.
+## What problem does it solve?
+Designing a space mission means balancing mass, power, data, budget, communications and orbital constraints. For people who rarely see a complete mission, those trade-offs feel abstract. Mission Control makes them tangible: every part you choose changes the resources, the risk and the science you can achieve.
 
-## Cómo funciona
-- **2 categorías, 3 misiones cada una:** Ojo en la Tierra y Telescopio Espacial.
-- **Entrenamiento guiado por categoría:** una misión que lleva de la mano al jugador en cada pantalla, iluminando lo que toca hacer y explicando por qué.
-- **3 dificultades:** Novato, Conocedor y Experto, que cambian presupuesto, plazo, riesgo y meta de ciencia.
-- **Taller:** se arma el satélite (bus, sensores, soporte) y el cohete por partes, de abajo hacia arriba: Fase 1, boosters, etapa superior y cofia. Cada parte limita las compatibles de la siguiente.
-- **Recursos:** peso, potencia, datos y presupuesto, con confiabilidad y meses de construcción como indicadores.
-- **Revisión:** un semáforo valida el diseño y permite pruebas en Tierra antes del lanzamiento.
-- **Operaciones:** 12 meses con eventos y consecuencias.
-- **Puntuación:** ciencia, recursos, presupuesto, decisiones y equilibrio del diseño, con tabla de clasificación local.
+## How it works
+- **2 categories, 3 missions each:** Eye on Earth and Space Telescope.
+- **One guided training per category:** a mission that walks the player through every screen, highlighting what to do next and explaining why.
+- **3 difficulty levels:** Rookie, Skilled and Expert, which change the budget, deadline, risk and science goal.
+- **Workshop:** you build the satellite (bus, instruments, support systems) and the rocket part by part, from the bottom up: Stage 1, boosters, upper stage and fairing. Each part limits which ones fit next.
+- **Resources:** mass, power, data and budget, with reliability and build time as indicators.
+- **Review:** a status checklist validates the design and lets you run ground tests before launch.
+- **Operations:** 12 months with events and consequences.
+- **Scoring:** science, resources, budget, decisions and design balance, with a local leaderboard.
+- **Languages:** Spanish and English.
 
-## Flujo del juego
-Inicio → Misiones → Contexto → Taller → Revisión → Lanzamiento → Operaciones → Reporte → Marcador
+## Game flow
+Home → Missions → Background → Workshop → Review → Launch → Operations → Report → Leaderboard
 
-## Estructura del proyecto
-index.html / index.css / index.js
-modulos/     una carpeta por pantalla (misiones, contexto, taller, revision, lanzamiento, operaciones, reporte, marcador, glosario, como-jugar)
-compartido/  tema, estado, navegación, componentes, dibujo de la nave y guía de los entrenamientos
-nucleo/      reglas del juego: cálculos, validación, operaciones y puntuación
-datos/       catálogo de piezas, cohetes, misiones, dificultades, eventos, glosario y pasos de los entrenamientos
+## Project structure
+Folder and file names are in Spanish, as they appear in the code.
+
+```
+index.html / index.css / index.js   home screen
+modulos/     one folder per screen (missions, background, workshop, review, launch,
+             operations, report, leaderboard, glossary, how to play)
+compartido/  theme, saved state, navigation, components, spacecraft drawing,
+             confirmation dialog and training guide
+nucleo/      game rules: calculations, validation, operations and scoring
+datos/       catalog of parts, rockets, missions, difficulty levels, events,
+             glossary and training steps
+idioma/      English translations
+```
 
 ## Demo
 https://missioncontrol-hackathon.vercel.app
 
-## Equipo
-Enoch González, Alarcón Valencia, Ivan Corzo, Cristopher Gómez.
+## Team
+Santos Enoch González Pérez, Carlos Adrian Alarcón Valencia, Ivan Daniel Galdamez Corzo, Cristopher Gómez Pérez.
