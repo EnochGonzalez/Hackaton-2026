@@ -1,9 +1,11 @@
-/* INICIO: menú principal. Al tocar MISIONES el cohete despega y luego se abre la lista. */
+/* INICIO: menú principal. El cohete navega entre estrellas; al tocar MISIONES acelera,
+   despega y luego se abre la lista. */
 import {cargarPartida, cargarComandante, guardarComandante, misionDe} from './compartido/estado.js';
 import {ir, activarEnlaces} from './compartido/nav.js';
 import {ico, limpio} from './compartido/componentes.js';
 import {heroeSVG} from './compartido/nave-svg.js';
 import {efecto} from './compartido/audio.js';
+import {iniciarEstrellas} from './compartido/estrellas.js';
 import {t, tx} from './idioma/idioma.js';
 
 const partida = cargarPartida();
@@ -30,13 +32,15 @@ document.querySelector('#app').innerHTML = `
 activarEnlaces();
 document.querySelector('#nm').addEventListener('input', e => guardarComandante(e.target.value));
 
+const campo = iniciarEstrellas();
 let despegando = false;
 document.querySelector('#btnMisiones').addEventListener('click', () => {
   if (despegando) return;
   despegando = true;
   document.querySelector('.hero').classList.add('launch');
   efecto('despegue');
+  campo.acelerar();
   setTimeout(() => ir('misiones'), 1700);
 });
 /* Si el jugador regresa con el botón Atrás del navegador, el cohete vuelve a su sitio */
-window.addEventListener('pageshow', () => { despegando = false; document.querySelector('.hero').classList.remove('launch'); });
+window.addEventListener('pageshow', () => { despegando = false; document.querySelector('.hero').classList.remove('launch'); campo.normal(); });

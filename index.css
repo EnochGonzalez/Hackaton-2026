@@ -15,12 +15,23 @@
 .whoc .fld{width:100%}
 .tip{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:14.5px;color:var(--mut)}
 /* Cohete y despegue */
-.hero{position:absolute;left:50%;bottom:2vh;height:80vh;transform:translateX(-50%);filter:drop-shadow(0 0 30px rgba(56,189,248,.18))}
+.hero{position:absolute;left:50%;bottom:2vh;height:80vh;transform:translateX(-50%);overflow:visible;filter:drop-shadow(0 0 34px rgba(56,189,248,.28))}
+/* En crucero flota suavemente (usa "translate" para no chocar con el transform que lo centra) */
+.hero{animation:flota 5s ease-in-out infinite}
+@keyframes flota{0%,100%{translate:0 7px}50%{translate:0 -9px}}
 .hero.launch{animation:lift 1.7s cubic-bezier(.5,0,.9,.4) forwards}
 @keyframes lift{0%{transform:translate(-50%,0)}15%{transform:translate(-50%,6px)}100%{transform:translate(-50%,-135vh)}}
 .hero .fl{transform-box:fill-box;transform-origin:top}
+/* Motor siempre encendido: llama corta en crucero, larga al despegar */
+.hero .fl{animation:flCrucero .16s infinite alternate}
+@keyframes flCrucero{from{transform:scaleY(.85)}to{transform:scaleY(1.35)}}
 .hero.launch .fl{animation:fl .12s infinite alternate}
-@keyframes fl{from{transform:scaleY(1)}to{transform:scaleY(2.6)}}
+@keyframes fl{from{transform:scaleY(1.4)}to{transform:scaleY(2.8)}}
+/* Campo de estrellas (compartido/estrellas.js), detrás de todo */
+.estrellas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+@media (prefers-reduced-motion:reduce){
+  .hero,.hero .fl{animation:none}
+}
 .menu{display:contents}     /* en escritorio no agrupa: .hl y .hr flotan a los lados */
 
 /* Flujo: título, cohete y debajo las tarjetas en dos columnas */

@@ -99,17 +99,28 @@ export function coheteSVG(o, activo, etiquetas = true) {
 
 /* Cohete del inicio (plano técnico). La llama lleva la clase "fl" para animarla. */
 export function heroeSVG() {
-  const L = 'stroke="#38bdf8" stroke-width="1.6" fill="none" stroke-linejoin="round" stroke-linecap="round"';
+  const L = 'stroke="#38bdf8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"';
+  const CUERPO = 'fill="url(#heroCuerpo)"', ALA = 'fill="url(#heroAla)"';
   return `<svg class="hero" viewBox="0 0 420 800">
+   <defs>
+    <linearGradient id="heroCuerpo" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0c2038"/><stop offset=".45" stop-color="#143457"/><stop offset="1" stop-color="#0a1a2e"/></linearGradient>
+    <linearGradient id="heroAla" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#11294a"/><stop offset="1" stop-color="#0a1626"/></linearGradient>
+    <radialGradient id="heroVentana"><stop offset="0" stop-color="#bae6fd"/><stop offset=".55" stop-color="#38bdf8" stop-opacity=".55"/><stop offset="1" stop-color="#0c2038"/></radialGradient>
+    <linearGradient id="heroLlama" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset=".5" stop-color="#fbbf24" stop-opacity=".85"/><stop offset="1" stop-color="#f97316" stop-opacity="0"/></linearGradient>
+    <radialGradient id="heroBrillo"><stop offset="0" stop-color="#fbbf24" stop-opacity=".45"/><stop offset="1" stop-color="#fbbf24" stop-opacity="0"/></radialGradient>
+   </defs>
+   <ellipse cx="210" cy="700" rx="120" ry="70" fill="url(#heroBrillo)"/>
+   <g class="fl"><path d="M170 680q40 120 80 0z" fill="url(#heroLlama)"/><path d="M190 680q20 62 40 0z" fill="#fef3c7" fill-opacity=".85"/></g>
    <g ${L}>
-    <path d="M210 24q70 78 70 214v372H140V238Q140 102 210 24z" fill="rgba(56,189,248,.06)"/>
-    <path d="M140 238h140M140 470h140M140 520h140M210 24v214"/>
-    <circle cx="210" cy="330" r="30"/><circle cx="210" cy="330" r="20" stroke-opacity=".5"/><circle cx="210" cy="410" r="13"/>
-    <path d="M140 340q-58 24-68 118v156h68zM280 340q58 24 68 118v156h-68z" fill="rgba(56,189,248,.05)"/>
-    <path d="M140 566l-62 108h62zM280 566l62 108h-62z"/>
-    <path d="M168 610h84l14 70H154z"/>
-    <g class="fl"><path d="M174 680q36 80 72 0" stroke="#fbbf24"/><path d="M192 680q18 46 36 0" stroke="#fbbf24" stroke-opacity=".6"/></g>
-   </g>
-   <g stroke="#8f9db4" stroke-width="1" fill="none" stroke-opacity=".7"><path d="M60 24v586M54 24h12M54 610h12"/><path d="M360 238h40M360 610h40M380 238v372M374 238h12M374 610h12"/></g>
-   <g fill="#8f9db4" font-size="11" font-family="Nunito,sans-serif" letter-spacing="2"><text x="32" y="320" transform="rotate(-90 32 320)">H · 58 M</text><text x="388" y="428" transform="rotate(90 388 428)">${t('CUERPO')} · 3.7 M</text></g></svg>`;
+    <path d="M140 340q-58 24-68 118v156h68zM280 340q58 24 68 118v156h-68z" ${ALA}/>
+    <path d="M140 566l-62 108h62zM280 566l62 108h-62z" ${ALA}/>
+    <path d="M168 610h84l14 70H154z" ${CUERPO}/>
+    <path d="M210 24q70 78 70 214v372H140V238Q140 102 210 24z" ${CUERPO}/>
+    <path d="M140 238h140M140 470h140M140 520h140" fill="none"/>
+    <path d="M210 24v214" fill="none" stroke-opacity=".45"/>
+    <path d="M152 262v190" fill="none" stroke="#7dd3fc" stroke-opacity=".28" stroke-width="5"/>
+    <circle cx="210" cy="330" r="30" fill="#0a1a2e"/><circle cx="210" cy="330" r="21" fill="url(#heroVentana)" stroke-opacity=".6"/>
+    <circle cx="210" cy="410" r="13" fill="#0a1a2e"/><circle cx="210" cy="410" r="6" fill="#38bdf8" fill-opacity=".5" stroke="none"/>
+   </g></svg>`;
 }
+
