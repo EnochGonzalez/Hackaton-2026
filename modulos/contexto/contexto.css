@@ -5,3 +5,17 @@
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .ctx .warnbar{margin:6px 0 16px;border-radius:10px}
 .acciones{display:flex;gap:12px}
+
+@media (max-width:1100px),(max-height:600px){
+  .ctx{position:static;transform:none;width:min(920px,100%);margin:0 auto;max-height:none;overflow:visible}
+  .acciones{flex-wrap:wrap}
+}
+@media (max-width:700px){
+  .ctx{padding:20px 18px}
+  .ctx h2{font-size:25px}
+  .ctx p{font-size:16px}
+  .row2{grid-template-columns:1fr;gap:0}
+  .acciones{flex-direction:column}
+  .acciones .btn,.acciones .go{width:100%}
+  .ctx > .go{width:100%}
+}

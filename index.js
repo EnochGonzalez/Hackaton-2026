@@ -11,6 +11,7 @@ const tarjeta = (attr, icono, titulo, sub, apagada) =>
 document.querySelector('#app').innerHTML = `
   ${heroeSVG()}
   <div class="brand"><b>MISSION CONTROL</b><small>Simulador de diseño de misiones espaciales</small></div>
+  <div class="menu">
   <div class="hl">
     ${tarjeta('id="btnMisiones"', 'libro', 'MISIONES', 'Elige dificultad y contrato')}
     ${tarjeta('data-ir="taller"', 'cohete', 'TALLER', partida ? misionDe(partida).n : 'Diseña y equipa tu nave', !partida)}
@@ -20,6 +21,7 @@ document.querySelector('#app').innerHTML = `
     ${tarjeta('data-ir="glosario"', 'lupa', 'GLOSARIO', 'Términos de la misión')}
     ${tarjeta('data-ir="como-jugar"', 'ayuda', 'CÓMO JUGAR', 'Guía rápida')}
     <div class="whoc"><label for="nm">COMANDANTE</label><input class="fld" id="nm" maxlength="18" placeholder="Tu nombre" value="${limpio(cargarComandante())}"></div>
+  </div>
   </div>
   ${partida ? '' : '<div class="tip">Toca MISIONES para despegar hacia tu primer contrato.</div>'}`;
 

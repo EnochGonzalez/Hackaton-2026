@@ -64,3 +64,37 @@
 
 /* Íconos de línea */
 .ico{stroke:var(--acc);fill:rgba(56,189,248,.1);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============================================================
+   FLUJO (tablet, ventana chica): los elementos que en escritorio
+   flotan en las esquinas pasan a ocupar su lugar en la página.
+   ============================================================ */
+@media (max-width:1100px),(max-height:600px){
+  .back{position:static;align-self:flex-start}
+  .nav{position:static;order:90;justify-content:center;flex-wrap:wrap}
+  .mini{position:static;order:91;justify-content:center}
+  .page{position:static;transform:none;width:100%;max-width:1120px;margin:0 auto;overflow:visible;padding:22px 24px}
+  .top{height:auto;flex-wrap:wrap;gap:10px 18px}
+  .top .mname{text-align:center}
+  .steps{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .steps::-webkit-scrollbar{display:none}
+  .stp{white-space:nowrap}
+  .right{align-self:stretch}
+}
+@media (max-width:700px){
+  .btn,.go{padding:12px 18px;font-size:15px}
+  .nav .btn{flex:1}
+  .page{padding:18px 16px}
+  .page h2{font-size:24px}
+  .card{padding:18px}
+  .card h3{font-size:20px}
+  .card p{font-size:16px}
+  .stp,.seg button{padding:8px 12px;font-size:12.5px}
+  .warnbar{padding:12px 16px;font-size:14.5px}
+}
+/* Pantallas táctiles: botones de al menos 44 px para el dedo */
+@media (pointer:coarse){
+  .back,.mini button,.stp,.seg button{min-height:44px}
+  .stp,.seg button{display:inline-flex;align-items:center;justify-content:center}
+  .back,.mini button{display:inline-flex;align-items:center}
+}

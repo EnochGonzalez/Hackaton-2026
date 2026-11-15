@@ -1,6 +1,14 @@
 /* ============================================================
    TEMA: colores, tipografía y fondo. Dan y Fer: cambien aquí
    las variables y todo el juego cambia de aspecto.
+
+   TAMAÑOS DE PANTALLA (se repiten en el CSS de cada módulo):
+   · Escritorio: más de 1100 px de ancho y más de 600 px de alto.
+     Todo cabe en una pantalla, sin scroll.
+   · Flujo (tablet, ventana chica o teléfono acostado):
+     @media (max-width:1100px),(max-height:600px)
+     La página hace scroll y las columnas se acomodan.
+   · Teléfono: @media (max-width:700px) — una sola columna.
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap');
 :root{
@@ -28,4 +36,14 @@ body{font-family:var(--fuente);font-weight:600;color:var(--tx);overflow:hidden;m
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 h1,h2,h3{font-weight:800;letter-spacing:.01em}
 #app{position:absolute;inset:0;padding:28px 40px}
+
+/* Flujo: la página crece y hace scroll en lugar de ocupar la pantalla fija */
+@media (max-width:1100px),(max-height:600px){
+  html,body{height:auto;min-height:100%}
+  body{overflow-x:hidden;overflow-y:auto;min-width:0;background-attachment:fixed}
+  #app{position:relative;inset:auto;min-height:100vh;min-height:100dvh;padding:18px 24px 28px;display:flex;flex-direction:column;gap:16px}
+}
+@media (max-width:700px){
+  #app{padding:12px 14px 24px;gap:14px}
+}
 .mono{font-variant-numeric:tabular-nums}

@@ -4,3 +4,11 @@
 .tbl td{padding:11px 10px;border-bottom:1px solid var(--line)}
 .tbl .g{font-weight:800;color:var(--acc)}
 .vacio{color:var(--mut);padding:30px 0;text-align:center;font-size:17px}
+.tblwrap{overflow-x:auto}
+
+@media (max-width:700px){
+  .tools .sel{width:100%}
+  .tbl{font-size:14.5px}
+  .tbl th,.tbl td{padding:9px 6px}
+  .tbl th:nth-child(4),.tbl td:nth-child(4),.tbl th:nth-child(7),.tbl td:nth-child(7){display:none}   /* dificultad y fecha no caben en teléfono */
+}

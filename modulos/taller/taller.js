@@ -10,6 +10,10 @@ import {icoPieza, barrasHTML, indicadoresHTML, enlacesAyuda} from '../../compart
 import {naveSVG, coheteSVG} from '../../compartido/nave-svg.js';
 
 const app = document.querySelector('#app');
+/* En pantallas táctiles o angostas no hay columna de información fija ni hover:
+   tocar una pieza abre un panel inferior con sus datos y el botón ELEGIR.
+   Esta consulta es la misma que la del modo "flujo" en el CSS. */
+const MODO_TOQUE = matchMedia('(hover: none), (max-width: 1100px), (max-height: 600px)');
 const partida = exigirPartida();
 /* Con un vuelo en curso o terminado no se edita el diseño: REDISEÑAR (en el reporte) lo libera */
 if (partida && partida.rep) ir('reporte');
@@ -44,7 +48,15 @@ function iniciar() {
         + fila('Ranuras', it.slots) + fila('Diámetro', it.diam ? it.diam + ' m' : '') + fila('Confiabilidad', it.rel ? (it.rel > 0 ? '+' : '') + it.rel : '')
         + fila('Tiempo', it.t + (it.t === 1 ? ' mes' : ' meses')) + fila('Costo', '$' + fmt(it.c) + ' M');
     }
-    return `<h4>${it.n}</h4>${filas}<p>${it.txt || ''}</p>${razon ? `<div class="why">${razon}</div>` : ''}`;
+    let acciones = '';
+    if (MODO_TOQUE.matches) {
+      const activa = elegida(sobre.cat, sobre.id);
+      const boton = razon && !activa ? ''
+        : activa && esCohete(sobre.cat) ? '<button class="btn" disabled>ELEGIDA ✓</button>'
+        : `<button class="btn ${activa ? 'light' : 'go2'}" data-accion="elegir">${activa ? 'QUITAR' : 'ELEGIR'}</button>`;
+      acciones = `<div class="acc">${boton}<button class="btn light" data-accion="cerrar">CERRAR</button></div>`;
+    }
+    return `<h4>${it.n}</h4>${filas}<p>${it.txt || ''}</p>${razon ? `<div class="why">${razon}</div>` : ''}${acciones}`;
   }
 
   function pintar() {
@@ -61,14 +73,15 @@ function iniciar() {
     app.innerHTML = `<button class="back" data-ir="inicio">‹ INICIO</button>
       <div class="top"><span class="mname">${M.n} · ${ORBS[M.orbit]}</span><div class="steps">${pestanas}</div></div>
       <div class="taller">
-        <div class="gridwrap">${izquierda}</div>
-        <div class="info" id="info">${infoHTML()}</div>
+        <div class="resumen">${barrasHTML(o)}</div>
+        <div class="gridwrap">${enCohete ? "" : `<p class="ayuda-paso">${paso.ayuda}</p>`}${izquierda}</div>
+        <div class="info" id="info">${MODO_TOQUE.matches ? '' : infoHTML()}</div>
         <div class="stage">${enCohete ? coheteSVG(o, ORDEN_COHETE[partida.sub]) : naveSVG(o)}</div>
         <div class="right"><h3>${M.n}</h3>${barrasHTML(o)}${indicadoresHTML(o)}</div>
       </div>
       <div class="nav">${partida.paso > 0 ? '<button class="btn light" data-paso="' + (partida.paso - 1) + '">‹ ATRÁS</button>' : ''}
         ${enCohete ? '<button class="btn" data-ir="revision">REVISAR ›</button>' : '<button class="btn" data-paso="' + (partida.paso + 1) + '">SIGUIENTE ›</button>'}</div>
-      ${enlacesAyuda()}`;
+      ${enlacesAyuda()}<div class="velo"></div>`;
   }
 
   function elegir(cat, id) {
@@ -81,22 +94,49 @@ function iniciar() {
     else sel[cat] = sel[cat] === id ? null : id;
   }
 
+  /* Panel inferior (modo táctil): se abre con la pieza tocada y se cierra con CERRAR, Esc o tocando fuera */
+  function abrirPanel(cat, id) {
+    sobre = {cat, id};
+    const info = document.querySelector('#info');
+    info.innerHTML = infoHTML(); info.scrollTop = 0; info.classList.add('abierta');
+    document.querySelector('.velo').classList.add('abierta');
+  }
+  function cerrarPanel() {
+    sobre = null;
+    document.querySelector('#info').classList.remove('abierta');
+    document.querySelector('.velo').classList.remove('abierta');
+  }
+
   activarEnlaces();
   app.addEventListener('click', e => {
+    const accion = e.target.closest('[data-accion]');
+    if (accion) {
+      if (accion.dataset.accion === 'elegir' && sobre) { elegir(sobre.cat, sobre.id); sobre = null; guardarPartida(partida); pintar(); }
+      else cerrarPanel();
+      return;
+    }
+    if (e.target.closest('.velo')) { cerrarPanel(); return; }
     const b = e.target.closest('[data-paso],[data-sub],.tile');
     if (!b || b.disabled) return;
-    if (b.dataset.paso !== undefined) partida.paso = +b.dataset.paso;
+    if (b.classList.contains('tile') && MODO_TOQUE.matches) { abrirPanel(b.dataset.cat, b.dataset.id); return; }
+    if (b.dataset.paso !== undefined) { partida.paso = +b.dataset.paso; window.scrollTo(0, 0); }
     else if (b.dataset.sub !== undefined) partida.sub = +b.dataset.sub;
     else { if (b.classList.contains('lock')) return; elegir(b.dataset.cat, b.dataset.id); }
     sobre = null; guardarPartida(partida); pintar();
   });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && MODO_TOQUE.matches) cerrarPanel(); });
+  /* Hover solo en escritorio con mouse */
   app.addEventListener('mouseover', e => {
+    if (MODO_TOQUE.matches) return;
     const t = e.target.closest('.tile'); if (!t) return;
     sobre = {cat: t.dataset.cat, id: t.dataset.id}; document.querySelector('#info').innerHTML = infoHTML();
   });
   app.addEventListener('mouseout', e => {
+    if (MODO_TOQUE.matches) return;
     if (!e.target.closest('.tile') || (e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.tile'))) return;
     sobre = null; document.querySelector('#info').innerHTML = infoHTML();
   });
+  /* Si la ventana cambia entre escritorio y táctil, se vuelve a pintar con el modo correcto */
+  MODO_TOQUE.addEventListener('change', () => { sobre = null; pintar(); });
   pintar();
 }

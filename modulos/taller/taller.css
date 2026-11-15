@@ -30,3 +30,52 @@
 .stage{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:0;overflow:hidden}
 .stage::before{content:"";position:absolute;inset:6% 4% 4%;border-radius:50%;background:radial-gradient(closest-side,rgba(56,189,248,.12),transparent 75%);pointer-events:none}
 .stage svg{height:100%;width:100%;position:relative}
+/* Elementos que solo existen fuera del escritorio */
+.resumen,.ayuda-paso,.velo{display:none}
+.info .acc{display:flex;gap:10px;margin-top:16px}
+.info .acc .btn{flex:1}
+
+/* ============================================================
+   FLUJO (tablet o ventana chica): catálogo a la izquierda,
+   nave y recursos a la derecha; la información es un panel inferior.
+   ============================================================ */
+@media (max-width:1100px),(max-height:600px){
+  .taller{position:static;grid-template-columns:minmax(0,1fr) 290px;grid-template-areas:"cat stage" "cat right";grid-template-rows:auto 1fr;gap:16px}
+  .gridwrap{grid-area:cat;overflow:visible;max-height:none;padding:0}
+  .gridwrap h3:first-of-type{margin-top:0}
+  .ayuda-paso{display:block;color:var(--mut);font-size:15px;line-height:1.35;margin-bottom:6px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}
+  .tile{width:auto;height:auto;aspect-ratio:1;min-height:104px}
+  .sub{width:100%}
+  .stage{grid-area:stage;height:300px;background:rgba(17,26,46,.5);border:1px solid var(--line);border-radius:var(--radio)}
+  .right{grid-area:right}
+  /* Panel inferior */
+  .info{position:fixed;left:0;right:0;bottom:0;z-index:60;min-height:0;max-height:78vh;overflow:auto;margin:0 auto;max-width:640px;
+    border-radius:18px 18px 0 0;padding:20px 22px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -20px 50px rgba(0,0,0,.55);
+    transform:translateY(110%);visibility:hidden;transition:transform .22s ease,visibility .22s}
+  .info.abierta{transform:none;visibility:visible}
+  .info::before{content:"";display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:-8px auto 14px}
+  .velo{display:block;position:fixed;inset:0;z-index:55;background:rgba(3,6,14,.6);opacity:0;pointer-events:none;transition:opacity .22s}
+  .velo.abierta{opacity:1;pointer-events:auto}
+}
+
+/* Teléfono: una columna. Arriba un resumen fijo de recursos para ver
+   el efecto de cada pieza sin bajar hasta el final. */
+@media (max-width:700px){
+  .taller{grid-template-columns:1fr;grid-template-areas:"resumen" "cat" "stage" "right";grid-template-rows:none;gap:14px}
+  .resumen{display:grid;grid-area:resumen;grid-template-columns:1fr 1fr;gap:6px 14px;position:sticky;top:0;z-index:20;
+    margin:0 -14px;padding:10px 14px;background:rgba(10,15,28,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .resumen .bar{margin:0}
+  .resumen .bar .t{font-size:10.5px;letter-spacing:.08em}
+  .resumen .bar .t b{font-size:11.5px}
+  .resumen .trk{margin-top:3px;height:6px}
+  .right .bar{display:none}          /* ya están en el resumen */
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .tile{min-height:0;padding:6px 4px}
+  .tile svg{width:34px;height:34px}
+  .tile .nm{font-size:11px}
+  .sub{gap:4px}
+  .sub button{font-size:10px;letter-spacing:.04em;padding:7px 2px}
+  .stage{height:240px}
+  .info{max-height:85vh;padding-left:18px;padding-right:18px}
+}

@@ -18,8 +18,8 @@ function pintar() {
   app.innerHTML = `<button class="back" data-ir="inicio">‹ INICIO</button>
     <div class="page paper"><h2>Tabla de clasificación</h2><div class="sub">Partidas guardadas en este navegador.</div>
       <div class="tools"><select class="sel" id="orden">${Object.keys(ORDENES).map(k => `<option value="${k}" ${k === orden ? 'selected' : ''}>${ORDENES[k][0]}</option>`).join('')}</select></div>
-      ${filas.length ? `<table class="tbl"><tr><th>#</th><th>Comandante</th><th>Misión</th><th>Dificultad</th><th>Nota</th><th>Puntos</th><th>Fecha</th></tr>
-        ${filas.map((x, n) => `<tr><td>${n + 1}</td><td>${limpio(x.name)}</td><td>${limpio(x.mn)}</td><td>${(DIF[x.dif] || DIF.ing).n}</td><td class="g">${limpio(x.grade)}</td><td>${+x.total}</td><td>${limpio(x.date)}</td></tr>`).join('')}</table>`
+      ${filas.length ? `<div class="tblwrap"><table class="tbl"><tr><th>#</th><th>Comandante</th><th>Misión</th><th>Dificultad</th><th>Nota</th><th>Puntos</th><th>Fecha</th></tr>
+        ${filas.map((x, n) => `<tr><td>${n + 1}</td><td>${limpio(x.name)}</td><td>${limpio(x.mn)}</td><td>${(DIF[x.dif] || DIF.ing).n}</td><td class="g">${limpio(x.grade)}</td><td>${+x.total}</td><td>${limpio(x.date)}</td></tr>`).join('')}</table></div>`
         : '<div class="vacio">Todavía no hay partidas. Termina una misión y agrégala a la tabla.</div>'}
     </div>`;
 }
