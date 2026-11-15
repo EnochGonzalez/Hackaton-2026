@@ -5,7 +5,6 @@
 .mhead .sub{color:var(--mut);font-size:15.5px;margin-top:4px}
 .difbox{width:420px;flex:none}
 .difbox small{display:block;color:var(--mut);font-size:13px;line-height:1.3;margin-top:6px;min-height:2.6em}
-.mis .warnbar{border-radius:10px}
 
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
 .col{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.3)}

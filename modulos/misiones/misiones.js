@@ -7,6 +7,7 @@ import {fmt} from '../../nucleo/calc.js';
 import {cargarPartida, misionDe, hayProgreso, esLaMisma, esTutorial, cargarDificultad, guardarDificultad, guardarPendiente, cargarMarcador, cargarGuia, guardarGuia} from '../../compartido/estado.js';
 import {ir, activarEnlaces} from '../../compartido/nav.js';
 import {ico} from '../../compartido/componentes.js';
+import {preguntar} from '../../compartido/dialogo.js';
 import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
@@ -60,13 +61,25 @@ function pintar() {
         <div><h2>${t('Elige tu misión')}</h2><p class="sub">${t('¿Primera vez? Empieza con un entrenamiento guiado.')}</p></div>
         <div class="difbox"><div class="lbl">${t('Dificultad de los contratos')}</div><div class="seg">${selector}</div><small>${DIF[dif].txt}</small></div>
       </div>
-      ${enCurso ? `<div class="warnbar"><b>${t('Tienes una misión en curso: {n} ({d}).', {n: misionDe(partida).n, d: DIF[partida.dif].n})}</b> ${t('Si inicias una misión nueva, el progreso de tu taller se puede perder.')}</div>` : ''}
+      ${enCurso ? `<div class="aviso">${ico('cohete')}<div><b>${t('Tienes una misión en curso: {n} ({d}).', {n: misionDe(partida).n, d: DIF[partida.dif].n})}</b> ${t('Si eliges otra, te preguntaremos antes de borrar tu diseño.')}</div>
+        <button class="btn" data-ir="taller">${t('CONTINUAR')}</button></div>` : ''}
       <div class="cols">${columnas}</div>
     </div>`;
 }
 
 activarEnlaces();
-app.addEventListener('click', e => {
+/* Si hay una misión real en curso y se elige otra, pregunta antes de seguir */
+async function confirmarCambio(id, d) {
+  if (!enCurso || esLaMisma(partida, id, d)) return true;
+  const actual = misionDe(partida), nueva = aplicarDificultad(MISIONES.find(m => m.id === id), d);
+  return preguntar({
+    titulo: t('¿Iniciar una misión nueva?'),
+    texto: t('Tienes en curso <b>{a}</b> ({d}). Si inicias <b>{n}</b>, se borrará el diseño de tu taller.', {a: actual.n, d: DIF[partida.dif].n, n: nueva.n}),
+    no: t('SEGUIR CON MI MISIÓN'), si: t('SÍ, INICIAR NUEVA'),
+  });
+}
+
+app.addEventListener('click', async e => {
   const b = e.target.closest('[data-dif],[data-aceptar],[data-tuto]');
   if (!b) return;
   if (b.dataset.dif) { dif = b.dataset.dif; guardarDificultad(dif); pintar(); }
@@ -76,11 +89,17 @@ app.addEventListener('click', e => {
       guardarGuia({id, vistos: g && g.id === id ? g.vistos : [], off: false});
       ir('taller');
     } else {                                                 // empezar o repetir: siempre desde cero y en Novato
+      if (!await confirmarCambio(id, 'cad')) return;
       guardarGuia({id, vistos: [], off: false});
-      guardarPendiente({id, dif: 'cad', nuevo: true});
+      guardarPendiente({id, dif: 'cad', nuevo: true, confirmado: true});
       ir('contexto');
     }
   }
-  else { guardarPendiente({id: b.dataset.aceptar, dif}); ir('contexto'); }
+  else {
+    const id = b.dataset.aceptar;
+    if (!await confirmarCambio(id, dif)) return;
+    guardarPendiente({id, dif, confirmado: true});
+    ir('contexto');
+  }
 });
 pintar();

@@ -6,6 +6,7 @@ import {fmt} from '../../nucleo/calc.js';
 import {cargarPartida, guardarPartida, nuevaPartida, misionDe, hayProgreso, esLaMisma, esTutorial, cargarPendiente, guardarPendiente} from '../../compartido/estado.js';
 import {ir, activarEnlaces} from '../../compartido/nav.js';
 import {activarGuia} from '../../compartido/guia.js';
+import {preguntar} from '../../compartido/dialogo.js';
 import {t} from '../../idioma/idioma.js';
 
 const partida = cargarPartida(), pend = cargarPendiente();
@@ -23,12 +24,16 @@ else {
       <div class="row2"><div><div class="lbl">${t('Objetivo')}</div><p>${m.goal}</p></div><div><div class="lbl">${t('Requisito del contrato')}</div><p>${m.needTxt}</p></div></div>
       <div class="lbl">${t('Misiones reales que lo inspiran')}</div><p>${m.real}</p>
       <div class="lbl">${t('Cómo se evalúa')}</div><p>${t('Ciencia 400 · Recursos 200 · Presupuesto 150 · Decisiones 150 · Equilibrio 100.')}</p>
-      ${perderia ? `<div class="warnbar"><b>${t('Tienes una misión en curso: {n} ({d}).', {n: misionDe(partida).n, d: DIF[partida.dif].n})}</b> ${t('Si inicias esta misión, el progreso de tu taller se perderá.')}</div>
-        <div class="acciones"><button class="btn light" data-ir="taller">${t('CONTINUAR')} ${misionDe(partida).n.toUpperCase()}</button><button class="go" id="iniciar">${t('INICIAR ESTA MISIÓN Y PERDER EL PROGRESO')}</button></div>`
-        : `<button class="go" id="iniciar">${t('IR AL TALLER')}</button>`}
+      <div class="acciones">${perderia && !pend.confirmado ? `<button class="btn light" data-ir="taller">${t('CONTINUAR')} ${misionDe(partida).n.toUpperCase()}</button>` : ''}<button class="go" id="iniciar">${t('IR AL TALLER')}</button></div>
     </div>`;
   activarEnlaces();
-  document.querySelector('#iniciar').addEventListener('click', () => {
+  document.querySelector('#iniciar').addEventListener('click', async () => {
+    /* Llegó sin pasar por la pregunta de MISIONES (por ejemplo, con Atrás del navegador): se pregunta aquí */
+    if (perderia && !pend.confirmado && !await preguntar({
+      titulo: t('¿Iniciar una misión nueva?'),
+      texto: t('Tienes en curso <b>{a}</b> ({d}). Si inicias <b>{n}</b>, se borrará el diseño de tu taller.', {a: misionDe(partida).n, d: DIF[partida.dif].n, n: m.n}),
+      no: t('SEGUIR CON MI MISIÓN'), si: t('SÍ, INICIAR NUEVA'),
+    })) return;
     if (empiezaDeCero) guardarPartida(nuevaPartida(pend.id, pend.dif));
     guardarPendiente(null);
     ir('taller');

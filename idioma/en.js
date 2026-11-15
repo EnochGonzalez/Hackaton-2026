@@ -61,8 +61,6 @@ export const EN = {
   'ACEPTAR': 'ACCEPT',
   'CONTINUAR': 'CONTINUE',
   'Tienes una misión en curso: {n} ({d}).': 'You have a mission in progress: {n} ({d}).',
-  'Si inicias una misión nueva, el progreso de tu taller se puede perder.': 'If you start a new mission, your workshop progress may be lost.',
-  'Si inicias esta misión, el progreso de tu taller se perderá.': 'If you start this mission, your workshop progress will be lost.',
   'Contrato': 'Contract',
   'PRESUPUESTO {b} MDD': 'BUDGET {b} M USD',
   'PLAZO {p} MESES': 'DEADLINE {p} MONTHS',
@@ -75,7 +73,6 @@ export const EN = {
   'Misiones reales que lo inspiran': 'Real missions behind it',
   'Cómo se evalúa': 'How it is scored',
   'Ciencia 400 · Recursos 200 · Presupuesto 150 · Decisiones 150 · Equilibrio 100.': 'Science 400 · Resources 200 · Budget 150 · Decisions 150 · Balance 100.',
-  'INICIAR ESTA MISIÓN Y PERDER EL PROGRESO': 'START THIS MISSION AND LOSE PROGRESS',
   'IR AL TALLER': 'GO TO THE WORKSHOP',
 
   // ---------- Taller ----------
@@ -332,4 +329,11 @@ export const EN = {
   'La etapa superior deja al telescopio en su órbita exacta.': 'The upper stage places the telescope in its exact orbit.',
   'La cofia de 2 m: tu chasis mide 1.5 m, así que cabe.': 'The 2 m fairing: your bus is 1.5 m wide, so it fits.',
   'Tu telescopio usa menos de un tercio del cohete. Ningún cohete más pequeño llega, y uno más grande costaría más.': 'Your telescope uses less than a third of the rocket. No smaller rocket gets there, and a bigger one would cost more.',
+
+  // ---------- Ventana: misión nueva con otra en curso ----------
+  'Si eliges otra, te preguntaremos antes de borrar tu diseño.': 'If you choose another one, we will ask before erasing your design.',
+  '¿Iniciar una misión nueva?': 'Start a new mission?',
+  'Tienes en curso <b>{a}</b> ({d}). Si inicias <b>{n}</b>, se borrará el diseño de tu taller.': 'You have <b>{a}</b> ({d}) in progress. If you start <b>{n}</b>, your workshop design will be erased.',
+  'SEGUIR CON MI MISIÓN': 'KEEP MY MISSION',
+  'SÍ, INICIAR NUEVA': 'YES, START NEW',
 };
