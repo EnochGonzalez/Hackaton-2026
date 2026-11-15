@@ -8,6 +8,7 @@ import {guardarPartida, misionDe} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {barrasHTML, indicadoresHTML, enlacesAyuda} from '../../compartido/componentes.js';
 import {naveSVG} from '../../compartido/nave-svg.js';
+import {activarGuia} from '../../compartido/guia.js';
 import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
@@ -60,4 +61,5 @@ else if (partida) {
     guardarPartida(partida); ir('taller');
   }
   pintar();
+  activarGuia('revision');
 }

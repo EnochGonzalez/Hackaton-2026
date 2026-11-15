@@ -3,18 +3,20 @@
 import {CATEGORIAS, ORB, mision} from '../../datos/misiones.js';
 import {DIF, aplicarDificultad} from '../../datos/dificultades.js';
 import {fmt} from '../../nucleo/calc.js';
-import {cargarPartida, guardarPartida, nuevaPartida, misionDe, hayProgreso, esLaMisma, cargarPendiente, guardarPendiente} from '../../compartido/estado.js';
+import {cargarPartida, guardarPartida, nuevaPartida, misionDe, hayProgreso, esLaMisma, esTutorial, cargarPendiente, guardarPendiente} from '../../compartido/estado.js';
 import {ir, activarEnlaces} from '../../compartido/nav.js';
+import {activarGuia} from '../../compartido/guia.js';
 import {t} from '../../idioma/idioma.js';
 
 const partida = cargarPartida(), pend = cargarPendiente();
 if (!pend && !partida) ir('misiones');
 else {
   const m = pend ? aplicarDificultad(mision(pend.id), pend.dif) : misionDe(partida);
-  const perderia = pend && hayProgreso(partida) && !esLaMisma(partida, pend.id, pend.dif);
+  const empiezaDeCero = pend && (pend.nuevo || !esLaMisma(partida, pend.id, pend.dif));   // nuevo: repetir un entrenamiento
+  const perderia = empiezaDeCero && hayProgreso(partida) && !esTutorial(partida);
   document.querySelector('#app').innerHTML = `<button class="back" data-ir="misiones">‹ ${t('MISIONES')}</button>
     <div class="ctx paper">
-      <div class="lbl">${CATEGORIAS.find(c => c.id === m.cat).n} · ${t('Contrato')}</div><h2>${m.n}</h2>
+      <div class="lbl">${CATEGORIAS.find(c => c.id === m.cat).n} · ${m.tuto ? t('Entrenamiento guiado') : t('Contrato')}</div><h2>${m.n}</h2>
       <div class="chips"><span class="chip">${t('PRESUPUESTO {b} MDD', {b: fmt(m.budget)})}</span><span class="chip">${t('PLAZO {p} MESES', {p: m.deadline})}</span><span class="chip">${t('ÓRBITA')} ${ORB[m.orbit]}</span>
         <span class="chip light">${t('OPERACIÓN 12 MESES')}</span><span class="chip light">${t('DIFICULTAD')} ${DIF[m.dif].n.toUpperCase()}</span></div>
       <div class="lbl">${t('Contexto')}</div><p>${m.ctx}</p>
@@ -27,8 +29,9 @@ else {
     </div>`;
   activarEnlaces();
   document.querySelector('#iniciar').addEventListener('click', () => {
-    if (pend && !esLaMisma(partida, pend.id, pend.dif)) guardarPartida(nuevaPartida(pend.id, pend.dif));
+    if (empiezaDeCero) guardarPartida(nuevaPartida(pend.id, pend.dif));
     guardarPendiente(null);
     ir('taller');
   });
+  activarGuia('contexto');
 }

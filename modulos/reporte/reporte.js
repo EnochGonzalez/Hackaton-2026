@@ -3,6 +3,7 @@ import {DIF} from '../../datos/dificultades.js';
 import {guardarPartida, misionDe, reiniciarVuelo, cargarComandante, guardarComandante, agregarATabla} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {barra, limpio} from '../../compartido/componentes.js';
+import {activarGuia} from '../../compartido/guia.js';
 import {textoCausa} from '../../nucleo/puntuacion.js';
 import {t, LOCALE} from '../../idioma/idioma.js';
 
@@ -12,7 +13,8 @@ if (partida) {
   const M = misionDe(partida), r = partida.rep;
   const pintar = () => {
     let tabla = '';
-    if (!r.fail && partida.lb === 'si') tabla = `<div class="card lb"><b>${t('Partida agregada a la tabla de clasificación.')}</b><div class="row"><button class="btn" data-ir="marcador">${t('VER TABLA')}</button></div></div>`;
+    if (M.tuto) tabla = '';
+    else if (!r.fail && partida.lb === 'si') tabla = `<div class="card lb"><b>${t('Partida agregada a la tabla de clasificación.')}</b><div class="row"><button class="btn" data-ir="marcador">${t('VER TABLA')}</button></div></div>`;
     else if (!r.fail && partida.lb !== 'no') tabla = `<div class="card lb"><b>${t('¿Deseas agregar tu partida a la tabla de clasificación?')}</b>
       <p>${t('Se guarda solo en este navegador, con tu nombre, la misión, la dificultad y tu puntuación.')}</p>
       <div class="row"><input class="fld" id="nombre" maxlength="18" placeholder="${t('Tu nombre')}" value="${limpio(cargarComandante())}"><button class="btn go2" id="si">${t('SÍ, AGREGAR')}</button><button class="btn light" id="no">${t('NO, GRACIAS')}</button></div></div>`;
@@ -38,4 +40,5 @@ if (partida) {
     }
   });
   pintar();
+  activarGuia('reporte');
 }

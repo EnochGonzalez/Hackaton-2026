@@ -2,6 +2,7 @@
 import {MESES_EVENTO} from '../../datos/eventos.js';
 import {calc} from '../../nucleo/calc.js';
 import {siguienteMes, elegir, eventoActual, textoBitacora} from '../../nucleo/operacion.js';
+import {activarGuia} from '../../compartido/guia.js';
 import {t} from '../../idioma/idioma.js';
 import {guardarPartida, misionDe, guardarMejor} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
@@ -48,4 +49,5 @@ else if (partida) {
     else { elegir(o, ops, +b.dataset.op); trasAccion(); }
   });
   pintar();
+  activarGuia('operaciones');
 }

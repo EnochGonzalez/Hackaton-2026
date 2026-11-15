@@ -6,6 +6,7 @@
      missionControl.comandante  nombre del jugador
      missionControl.tabla       tabla de clasificación local
      missionControl.marcador    mejor resultado por misión
+     missionControl.guia        avance de la guía del entrenamiento
    ============================================================ */
 import {mision} from '../datos/misiones.js';
 import {aplicarDificultad} from '../datos/dificultades.js';
@@ -28,6 +29,12 @@ export function hayProgreso(p) {
   return !!(s.chasis || s.energia || s.adcs || s.comms || s.prop || s.f1 || s.instr.length || s.termico.length || s.tests !== 'none' || p.lanz || p.ops || p.rep);
 }
 export const esLaMisma = (p, id, dif) => !!p && p.id === id && p.dif === dif;
+/* Los entrenamientos guiados no cuentan como progreso que se pierda */
+export const esTutorial = p => !!p && !!(mision(p.id) || {}).tuto;
+
+/* --- Guía de los entrenamientos: {id, vistos: [pasos informativos ya leídos], off} --- */
+export const cargarGuia = () => leer('guia', null);
+export const guardarGuia = g => escribir('guia', g);
 
 /* --- Misión pendiente y dificultad --- */
 export const cargarPendiente = () => leer('pendiente', null);

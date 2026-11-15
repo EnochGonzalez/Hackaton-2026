@@ -10,6 +10,7 @@ Diseñar una misión espacial implica equilibrar masa, potencia, datos, presupue
 
 ## Cómo funciona
 - **2 categorías, 3 misiones cada una:** Ojo en la Tierra y Telescopio Espacial.
+- **Entrenamiento guiado por categoría:** una misión que lleva de la mano al jugador en cada pantalla, iluminando lo que toca hacer y explicando por qué.
 - **3 dificultades:** Novato, Conocedor y Experto, que cambian presupuesto, plazo, riesgo y meta de ciencia.
 - **Taller:** se arma el satélite (bus, sensores, soporte) y el cohete por partes, de abajo hacia arriba: Fase 1, boosters, etapa superior y cofia. Cada parte limita las compatibles de la siguiente.
 - **Recursos:** peso, potencia, datos y presupuesto, con confiabilidad y meses de construcción como indicadores.
@@ -23,9 +24,9 @@ Inicio → Misiones → Contexto → Taller → Revisión → Lanzamiento → Op
 ## Estructura del proyecto
 index.html / index.css / index.js
 modulos/     una carpeta por pantalla (misiones, contexto, taller, revision, lanzamiento, operaciones, reporte, marcador, glosario, como-jugar)
-compartido/  tema, estado, navegación, componentes y dibujo de la nave
+compartido/  tema, estado, navegación, componentes, dibujo de la nave y guía de los entrenamientos
 nucleo/      reglas del juego: cálculos, validación, operaciones y puntuación
-datos/       catálogo de piezas, cohetes, misiones, dificultades, eventos y glosario
+datos/       catálogo de piezas, cohetes, misiones, dificultades, eventos, glosario y pasos de los entrenamientos
 
 ## Demo
 https://missioncontrol-hackathon.vercel.app

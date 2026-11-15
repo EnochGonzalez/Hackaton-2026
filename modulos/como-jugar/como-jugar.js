@@ -4,7 +4,7 @@ import {activarEnlaces} from '../../compartido/nav.js';
 import {t, tx} from '../../idioma/idioma.js';
 
 const PASOS = [
-  [tx('Elige dificultad y contrato'), tx('En MISIONES escoges dificultad y una de las seis misiones. Cada contrato trae su presupuesto, su plazo y su órbita.')],
+  [tx('Elige dificultad y contrato'), tx('En MISIONES escoges dificultad y una de las seis misiones. Cada contrato trae su presupuesto, su plazo y su órbita. Si es tu primera vez, empieza con un entrenamiento guiado.')],
   [tx('Lee el contexto'), tx('Te explica qué problema resuelve la misión, qué debe cumplir tu nave y qué misiones reales la inspiran.')],
   [tx('Diseña el satélite'), tx('BUS, SENSORES y SOPORTE. Pasa el cursor sobre una pieza para ver sus datos. Las casillas punteadas no sirven para este contrato.')],
   [tx('Arma el cohete por partes'), tx('De abajo hacia arriba: Fase 1, boosters, etapa superior y cofia. La Fase 1 decide qué partes son compatibles y cuánta masa llega a tu órbita.')],

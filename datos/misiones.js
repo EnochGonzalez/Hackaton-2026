@@ -1,5 +1,5 @@
 /* ============================================================
-   MISIONES: 2 categorías, 3 contratos cada una.
+   MISIONES: 2 categorías, 1 entrenamiento guiado y 3 contratos cada una.
    Forma B: la órbita viene en el contrato, el jugador no la elige.
    need(instrumentos, seleccion) -> true si el diseño cumple el contrato.
    ============================================================ */
@@ -15,6 +15,23 @@ export const CATEGORIAS = [
 ];
 
 export const MISIONES = [
+  /* ---------- ENTRENAMIENTOS GUIADOS (tuto:1) ----------
+     Siempre en Novato, el lanzamiento no falla y no entran a la tabla.
+     Los pasos de la guía están en datos/tutoriales.js. */
+  {id:'o0',cat:'ojo',tuto:1,n:'Tu primer CubeSat',orbit:'sso',budget:24,deadline:24,duty:.6,sciTarget:25,opsM:.15,cashUnit:.3,testBase:1.5,
+   events:['fire','storm','comms','degr'],
+   ctx:'Un grupo de bomberos quiere ver incendios desde el espacio, pero tiene poco dinero. Vas a armar un satélite pequeño paso a paso. Te diremos qué elegir y por qué.',
+   goal:'Detectar focos de calor con un satélite pequeño.',
+   need:i=>i.some(x=>x.calor), needTxt:'El contrato pide al menos un sensor que detecte focos de calor.',
+   real:'Los CubeSats FireSat e Intuition-1.'},
+  {id:'t0',cat:'tel',tuto:1,n:'Tu primer telescopio',orbit:'leo',budget:350,deadline:48,duty:.35,sciTarget:30,opsM:3,cashUnit:6,testBase:10,
+   events:['micro','storm','comms','merge'],
+   ctx:'Quieres buscar planetas alrededor de otras estrellas. Vas a armar un telescopio ligero en órbita baja, paso a paso. Te diremos qué elegir y por qué.',
+   goal:'Buscar exoplanetas con un telescopio ligero.',
+   need:i=>i.length>0, needTxt:'El contrato pide al menos un instrumento astronómico.',
+   real:'TESS, el cazador de exoplanetas de la NASA (2018).'},
+
+  /* ---------- CONTRATOS ---------- */
   {id:'o1',cat:'ojo',n:'Alerta rápida de incendios',orbit:'sso',budget:24,deadline:24,duty:.6,sciTarget:25,opsM:.15,cashUnit:.3,testBase:1.5,
    events:['fire','storm','comms','degr'],
    ctx:'Los incendios forestales de Norteamérica se propagan en horas. Un consorcio de bomberos quiere un satélite diminuto, tipo CubeSat, que detecte focos de calor desde una órbita que pase sobre la misma zona todos los días. Tienes poco dinero: cada gramo y cada dólar cuentan.',

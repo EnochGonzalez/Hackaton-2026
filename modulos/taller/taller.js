@@ -8,6 +8,7 @@ import {guardarPartida, misionDe} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {icoPieza, barrasHTML, indicadoresHTML, enlacesAyuda} from '../../compartido/componentes.js';
 import {naveSVG, coheteSVG} from '../../compartido/nave-svg.js';
+import {activarGuia} from '../../compartido/guia.js';
 import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
@@ -140,6 +141,7 @@ function iniciar() {
   /* Si la ventana cambia entre escritorio y táctil, se vuelve a pintar con el modo correcto */
   MODO_TOQUE.addEventListener('change', () => { sobre = null; pintar(); });
   pintar();
+  activarGuia('taller');
 
   /* Si se llegó desde un punto de la revisión, se señala la categoría a corregir */
   if (partida.resaltar) {

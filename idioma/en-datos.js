@@ -131,6 +131,16 @@ export const EN_DATOS = {
   },
 
   misiones: {
+    o0: {n:'Your first CubeSat',
+      ctx:'A group of firefighters wants to see wildfires from space, but has little money. You will build a small satellite step by step. We will tell you what to choose and why.',
+      goal:'Detect hot spots with a small satellite.',
+      needTxt:'The contract asks for at least one instrument that detects hot spots.',
+      real:'The FireSat and Intuition-1 CubeSats.'},
+    t0: {n:'Your first telescope',
+      ctx:'You want to find planets around other stars. You will build a light telescope in low orbit, step by step. We will tell you what to choose and why.',
+      goal:'Search for exoplanets with a light telescope.',
+      needTxt:'The contract asks for at least one astronomical instrument.',
+      real:'TESS, NASA\'s exoplanet hunter (2018).'},
     o1: {n:'Rapid wildfire alert',
       ctx:'North American wildfires spread in hours. A firefighting consortium wants a tiny CubeSat-type satellite that detects hot spots from an orbit that passes over the same area every day. You have little money: every gram and every dollar counts.',
       goal:'Detect hot spots with a small, cheap satellite.',
