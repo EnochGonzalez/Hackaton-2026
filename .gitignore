@@ -2,5 +2,7 @@ node_modules/
 .DS_Store
 .vercel/
 Hackaton_2026.txt
-README.md
 pruebas/
+package.json
+package-lock.json
+node_modules/
