@@ -340,4 +340,12 @@ export const EN = {
   // ---------- Sonido ----------
   'Activar sonido': 'Turn sound on',
   'Silenciar': 'Mute',
+
+  // ---------- Lanzamiento y operaciones (escena) ----------
+  'ALTITUD': 'ALTITUDE',
+  'VELOCIDAD': 'SPEED',
+  'MES': 'MONTH',
+  'ALERTA · Decisión pendiente': 'ALERT · Decision pending',
+  'En órbita · Lista para operar': 'In orbit · Ready to operate',
+  '+{n} de ciencia por mes': '+{n} science per month',
 };

@@ -65,18 +65,21 @@ export function sateliteSVG(o, cx, cy, k) {
 
 export const naveSVG = o => `<svg viewBox="0 0 400 560">${sateliteSVG(o, 200, 320, 1.15)}</svg>`;
 
-/* Cohete armado por partes. activo = parte que se está eligiendo (f1, boosters, etapa, cofia); etiquetas = mostrar los nombres */
-export function coheteSVG(o, activo, etiquetas = true) {
+/* Cohete armado por partes. activo = parte que se está eligiendo (f1, boosters, etapa, cofia); etiquetas = mostrar los nombres;
+   llama = agrega las llamas del despegue (grupo con clase "fl", para animarlas con CSS) */
+export function coheteSVG(o, activo, etiquetas = true, llama = false) {
   const K = 1.35, cx = 165, base = 596, {f1, bo, et, co} = o;      // K = escala del dibujo
   const cw = (f1 ? f1.ancho : 44) * K, chh = (f1 ? f1.alto : 230) * K, yCore = base - chh;
   const eh = 46 * K, ew = cw * .92, yEt = yCore - eh;
   const fw = co ? Math.max(cw * .8, (co.diam * 11 + 10) * K) : cw, fh = (co ? 46 + co.diam * 9 + (co.largo ? 40 : 0) : 80) * K, yCo = yEt - fh;
   let g = '';
+  const toberas = [];                                  // [x centro, ancho] de cada llama
   // Boosters
   if (bo && bo.num) {
     const porLado = bo.num <= 2 ? 1 : bo.num <= 4 ? 2 : 3, bw = bo.ancho * K, bh = bw >= 40 ? chh * .96 : chh * .6;
     [-1, 1].forEach(d => { for (let j = 0; j < porLado; j++) {
       const x = d < 0 ? cx - cw / 2 - (bw + 2) * (j + 1) : cx + cw / 2 + 2 + (bw + 2) * j;
+      toberas.push([x + bw / 2, bw * .7]);
       g += `<path d="M${x} ${base - bh + bw * .7}q${bw / 2} ${-bw * 1.4} ${bw} 0V${base}H${x}z" fill="#334155" ${TR2}/><path d="M${x + bw * .2} ${base}l${bw * .3} 9l${bw * .3} -9" fill="#f59e0b" stroke="#cbd5e1" stroke-width="1.5"/>`;
     } });
   } else if (!bo) g += `<rect x="${cx - cw / 2 - 16}" y="${base - chh * .55}" width="12" height="${chh * .55}" ${FANTASMA}/><rect x="${cx + cw / 2 + 4}" y="${base - chh * .55}" width="12" height="${chh * .55}" ${FANTASMA}/>`;
@@ -91,6 +94,12 @@ export function coheteSVG(o, activo, etiquetas = true) {
   const cofia = `M${cx - fw / 2} ${yEt}V${yCo + fh * .45}Q${cx - fw / 2} ${yCo} ${cx} ${yCo}Q${cx + fw / 2} ${yCo} ${cx + fw / 2} ${yCo + fh * .45}V${yEt}z`;
   g += `<path d="${cofia}" ${co ? `fill="#e2e8f0" fill-opacity=".9" ${TR}` : FANTASMA}/>`;
   if (co) g += `<path d="M${cx} ${yCo}V${yEt}" stroke="#64748b" stroke-width="1.5"/>`;
+  // Llamas del despegue
+  if (llama && f1) {
+    toberas.push([cx, cw * .62]);
+    const fuego = ([x, a]) => { const L = 60 + a * 3.2; return `<path d="M${x - a / 2} ${base}Q${x} ${base + L * 2} ${x + a / 2} ${base}z" fill="url(#llamaCohete)"/><path d="M${x - a / 4} ${base}Q${x} ${base + L} ${x + a / 4} ${base}z" fill="#fef3c7" fill-opacity=".9"/>`; };
+    g += `<defs><linearGradient id="llamaCohete" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset=".5" stop-color="#fbbf24" stop-opacity=".85"/><stop offset="1" stop-color="#f97316" stop-opacity="0"/></linearGradient></defs><g class="fl">${toberas.map(fuego).join('')}</g>`;
+  }
   // Etiquetas
   const et2 = (y, clave, texto, listo) => `<g><path d="M${cx + 84} ${y}H${cx + 108}" stroke="${activo === clave ? '#38bdf8' : '#64748b'}" stroke-width="1.5"/><text x="${cx + 114}" y="${y + 4}" font-size="12" font-weight="800" letter-spacing="1.5" fill="${activo === clave ? '#38bdf8' : listo ? '#e6ebf4' : '#8f9db4'}">${texto}${listo ? ' ✓' : ''}</text></g>`;
   if (etiquetas) g += et2(yCo + fh * .5, 'cofia', t('COFIA'), !!co) + et2(yEt + eh / 2, 'etapa', t('FASE 2'), !!et) + et2(yCore + chh * .4, 'f1', t('FASE 1'), !!f1) + et2(base - 26, 'boosters', t('BOOSTERS'), !!bo);

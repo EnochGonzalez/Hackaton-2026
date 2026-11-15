@@ -1,20 +1,78 @@
-.lau{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
-.lau .rk{position:absolute;left:50%;bottom:-20px;width:300px;height:72vh;margin-left:-150px;animation:up 2.4s ease-in forwards}
-.lau .rk svg{width:100%;height:100%}
-@keyframes up{to{transform:translateY(-140vh)}}
-.lau .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 38px;max-width:580px;font-size:18px;line-height:1.45;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+/* LANZAMIENTO: plataforma, cuenta regresiva, encendido y ascenso entre estrellas */
+.lau{position:absolute;inset:0;overflow:hidden;display:grid;place-items:center;text-align:center}
+.lau-info{position:absolute;left:0;right:0;top:30px}
+.lau-info b{display:block;font-size:20px;font-weight:800}
+.lau-info small{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+
+/* Cuenta regresiva: cada número entra con un pulso */
+.cd{font-size:96px;font-weight:800;color:var(--acc);letter-spacing:.06em}
+.lau .cd{position:absolute;left:0;right:0;top:13vh;z-index:2;font-size:120px;line-height:1;text-shadow:0 0 40px rgba(56,189,248,.55)}
+.lau .cd.tic{animation:cdPulso .7s ease-out}
+.lau .cd.fin{font-size:64px;top:16vh;color:var(--warn);text-shadow:0 0 40px rgba(251,191,36,.55)}
+@keyframes cdPulso{0%{transform:scale(1.7);opacity:0}35%{opacity:1}100%{transform:scale(1)}}
+.lau.sube .cd{animation:cdFuera .9s ease-in .5s forwards}
+@keyframes cdFuera{to{opacity:0;transform:translateY(-30px)}}
+
+/* Cohete sobre la plataforma */
+.lau .rk{position:absolute;left:50%;bottom:44px;width:300px;height:60vh;margin-left:-150px}
+.lau .tiembla,.lau .rk svg{width:100%;height:100%}
+.lau .rk svg{overflow:visible;filter:drop-shadow(0 0 24px rgba(56,189,248,.2))}
+.lau .fl{opacity:0;transform-box:fill-box;transform-origin:top}
+.lau.fuego .fl{opacity:1;animation:fl .1s infinite alternate}
+@keyframes fl{from{transform:scaleY(.8)}to{transform:scaleY(1.25)}}
+.lau.fuego .tiembla{animation:tiembla .09s infinite}
+@keyframes tiembla{0%{transform:translate(-1.5px,0)}50%{transform:translate(1.5px,1px)}100%{transform:translate(-1px,-1px)}}
+.lau.sube .rk{animation:up 2.8s cubic-bezier(.5,0,.9,.4) forwards}
+@keyframes up{to{transform:translateY(-150vh)}}
+
+/* Plataforma y resplandor del encendido */
+.suelo{position:absolute;left:0;right:0;bottom:0;height:44px;border-top:2px solid rgba(56,189,248,.5);
+  background:linear-gradient(rgba(56,189,248,.14),transparent 70%),repeating-linear-gradient(90deg,transparent 0 58px,rgba(56,189,248,.16) 58px 60px)}
+.suelo::before{content:"";position:absolute;left:50%;top:-10px;width:380px;height:10px;margin-left:-190px;border-radius:4px 4px 0 0;background:#1e293b;border:2px solid #64748b;border-bottom:0}
+.lau.sube .suelo{animation:baja 1.3s ease-in forwards}
+@keyframes baja{to{transform:translateY(160px);opacity:0}}
+.humo{position:absolute;left:50%;bottom:-70px;width:620px;height:240px;margin-left:-310px;opacity:0;transform:scale(.4);
+  background:radial-gradient(ellipse at center,rgba(253,230,138,.55),rgba(249,115,22,.22) 38%,transparent 70%)}
+.lau.fuego .humo{opacity:1;transform:scale(1);transition:opacity .3s,transform .5s ease-out}
+.lau.sube .humo{opacity:0;transform:scale(1.5);transition:opacity 1.4s,transform 1.4s}
+
+/* Telemetría del ascenso */
+.lau .tele{position:absolute;left:0;right:0;bottom:34px;display:flex;justify-content:center;gap:14px;opacity:0;transition:opacity .4s}
+.lau.sube .tele{opacity:1}
+.tele span{min-width:170px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 18px}
+.tele small{display:block;font-size:11px;letter-spacing:.16em;font-weight:800;color:var(--mut)}
+.tele b{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.tele i{font-style:normal;color:var(--acc)}
+
+/* Resultado */
+.lau.fin{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px}
+.orbsat{width:min(300px,60vw);height:min(260px,32vh);animation:flota 6s ease-in-out infinite}
+.orbsat svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 26px rgba(56,189,248,.35))}
+@keyframes flota{0%,100%{translate:0 8px}50%{translate:0 -10px}}
+.lau .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 38px;max-width:580px;font-size:18px;line-height:1.45;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:entra .45s ease-out}
+.lau.ok .box{border-color:rgba(52,211,153,.5)}
+.lau.mal .box{border-color:rgba(248,113,113,.55)}
+.lau.ok h2{color:var(--ok)}.lau.mal h2{color:var(--bad)}
+@keyframes entra{from{opacity:0;transform:translateY(16px)}}
 .lau h2{font-size:28px;margin-bottom:8px}
 .lau .acciones{display:flex;gap:12px;justify-content:center;margin-top:20px}
-.lau .cd{position:relative;z-index:2;text-shadow:0 0 30px var(--bg)}
-.cd{font-size:96px;font-weight:800;color:var(--acc);letter-spacing:.06em}
 
 @media (max-width:1100px),(max-height:600px){
   .lau{position:fixed;padding:16px}
 }
 @media (max-width:700px){
-  .cd{font-size:60px}
-  .lau .rk{width:220px;margin-left:-110px;height:62vh}
+  .lau .cd{font-size:84px;top:150px}
+  .lau .cd.fin{font-size:40px;top:160px}
+  .lau-info{top:64px;padding:0 14px}
+  .lau .rk{width:220px;margin-left:-110px;height:54vh}
+  .humo{width:420px;margin-left:-210px}
+  .tele span{min-width:0;flex:1;padding:8px 10px}
+  .lau .tele{padding:0 14px;gap:8px}
+  .tele b{font-size:17px}
   .lau .box{padding:22px 20px;font-size:16px}
   .lau h2{font-size:23px}
   .lau .acciones{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  .lau .cd.tic,.lau.fuego .tiembla,.lau.fuego .fl,.orbsat,.lau .box{animation:none}
 }
