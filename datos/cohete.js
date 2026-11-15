@@ -6,6 +6,9 @@
 
    caps: capacidad en kg hacia cada órbita, según los boosters elegidos.
    ============================================================ */
+import {traducirLista} from '../idioma/idioma.js';
+import {EN_DATOS} from '../idioma/en-datos.js';
+
 export const FASE1 = [
   {id:'electron',n:'Cuerpo Rocket Lab Electron',c:5,rel:.94,alto:150,ancho:26,
    caps:{none:{sso:200,leo:300,geo:0,l2:0}},etapas:['curie'],cofias:['c12'],
@@ -65,6 +68,9 @@ export const COFIAS = [
   {id:'c54',n:'Cofia ancha 5.4 m',c:7.5,diam:5.4,txt:'Para radares con antenas desplegables, satélites geoestacionarios y telescopios rígidos.'},
   {id:'c54L',n:'Cofia gigante 5.4 × 17 m',c:10,diam:5.4,largo:1,txt:'La única con altura suficiente para el James Webb y su parasol plegados.'},
 ];
+
+/* Inglés: reemplaza nombres y textos (ver idioma/en-datos.js) */
+[FASE1, BOOSTERS, ETAPAS, COFIAS].forEach(L => traducirLista(L, EN_DATOS.cohete));
 
 export const PARTES_COHETE = {f1:FASE1, boosters:BOOSTERS, etapa:ETAPAS, cofia:COFIAS};
 export const ORDEN_COHETE = ['f1','boosters','etapa','cofia'];

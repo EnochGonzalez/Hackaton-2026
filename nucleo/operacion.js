@@ -22,16 +22,18 @@ export function siguienteMes(o, ops) {
 /* Aplica la opción i del evento pendiente */
 export function elegir(o, ops, i, azar = Math.random) {
   const e = EV[ops.ev], x = e.o[i], mes = cienciaMensual(o);
-  let resultado = x.d, salioMal = false;
+  let salioMal = false;
   ops.sci += (x.sci || 0) * mes; ops.hp += x.hp || 0; ops.spent += (x.cash || 0) * o.M.cashUnit;
   if (x.risk && azar() < x.risk.p * (o.M.risk || 1)) {
-    ops.hp += x.risk.hp || 0; ops.sci += (x.risk.sci || 0) * mes; resultado = x.risk.msg; salioMal = true;
+    ops.hp += x.risk.hp || 0; ops.sci += (x.risk.sci || 0) * mes; salioMal = true;
   }
   ops.sci = Math.max(0, ops.sci); ops.hp = Math.max(0, Math.min(100, ops.hp));
   ops.qs.push(salioMal ? Math.max(0, x.q - .4) : x.q);
-  ops.log.push({m: ops.month, t: e.t, c: `Elegiste "${x.n}". ${resultado}`});
+  ops.log.push({m: ops.month, ev: ops.ev, op: i, mal: salioMal});     // el texto se arma al mostrarlo, en el idioma actual
   ops.ev = null; ops.hint = false;
   if (ops.month >= 12) terminar(o, ops);
 }
 
 function terminar(o, ops) { ops.done = true; ops.rep = puntuar(o, ops); }
+
+export {textoBitacora} from './puntuacion.js';

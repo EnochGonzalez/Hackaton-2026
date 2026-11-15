@@ -1,7 +1,14 @@
 .revwrap{position:absolute;left:50%;transform:translateX(-50%);top:92px;width:min(1120px,92vw);display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
 .rev{padding:16px 26px;max-height:calc(100vh - 180px);overflow:auto}
 .rev h2{font-size:22px;margin-bottom:6px}
-.vrow{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);align-items:start}
+.rev .pista{font-size:13.5px;color:var(--mut);margin-bottom:4px}
+.vrow{display:grid;grid-template-columns:34px 1fr 20px;gap:12px;width:100%;text-align:left;padding:6px 8px;margin:0 -8px;width:calc(100% + 16px);border-bottom:1px solid var(--line);border-radius:8px;align-items:start;transition:background .12s}
+.vrow:hover,.vrow:focus-visible{background:rgba(56,189,248,.08);outline:none}
+.vrow .ir{font-style:normal;font-weight:800;font-size:20px;color:var(--mut);align-self:center;text-align:center}
+.vrow:hover .ir{color:var(--acc)}
+.vrow.bad .ir{color:var(--bad)}
+.pruebas.resaltado{animation:resaltar 1.6s ease}
+@keyframes resaltar{0%,60%{box-shadow:0 0 0 2px var(--acc);border-radius:10px;background:rgba(56,189,248,.1)}100%{box-shadow:0 0 0 0 transparent}}
 .vrow b{display:block;font-size:16px;font-weight:800}
 .vrow span{font-size:14px;line-height:1.3;color:#b4c0d3}
 .dot{width:24px;height:24px;border-radius:50%;margin-top:2px;display:grid;place-items:center;color:#04130d;font-weight:800;font-size:14px}

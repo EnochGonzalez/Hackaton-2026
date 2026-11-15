@@ -3,6 +3,7 @@
    cohete se arma por partes. Dan y Fer pueden reemplazar estos
    trazos por ilustraciones propias sin tocar la lógica.
    ============================================================ */
+import {t} from '../idioma/idioma.js';
 const TR = 'stroke="#cbd5e1" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"';
 const TR2 = TR.replace('2.5', '2');
 const FANTASMA = 'stroke="#94a3b8" stroke-opacity=".7" stroke-width="2" stroke-dasharray="7 6" fill="rgba(255,255,255,.08)"';
@@ -92,7 +93,7 @@ export function coheteSVG(o, activo, etiquetas = true) {
   if (co) g += `<path d="M${cx} ${yCo}V${yEt}" stroke="#64748b" stroke-width="1.5"/>`;
   // Etiquetas
   const et2 = (y, clave, texto, listo) => `<g><path d="M${cx + 84} ${y}H${cx + 108}" stroke="${activo === clave ? '#38bdf8' : '#64748b'}" stroke-width="1.5"/><text x="${cx + 114}" y="${y + 4}" font-size="12" font-weight="800" letter-spacing="1.5" fill="${activo === clave ? '#38bdf8' : listo ? '#e6ebf4' : '#8f9db4'}">${texto}${listo ? ' ✓' : ''}</text></g>`;
-  if (etiquetas) g += et2(yCo + fh * .5, 'cofia', 'COFIA', !!co) + et2(yEt + eh / 2, 'etapa', 'FASE 2', !!et) + et2(yCore + chh * .4, 'f1', 'FASE 1', !!f1) + et2(base - 26, 'boosters', 'BOOSTERS', !!bo);
+  if (etiquetas) g += et2(yCo + fh * .5, 'cofia', t('COFIA'), !!co) + et2(yEt + eh / 2, 'etapa', t('FASE 2'), !!et) + et2(yCore + chh * .4, 'f1', t('FASE 1'), !!f1) + et2(base - 26, 'boosters', t('BOOSTERS'), !!bo);
   return `<svg viewBox="${etiquetas ? '0 0 400 620' : '25 0 280 620'}" font-family="Nunito,sans-serif">${g}</svg>`;
 }
 
@@ -110,5 +111,5 @@ export function heroeSVG() {
     <g class="fl"><path d="M174 680q36 80 72 0" stroke="#fbbf24"/><path d="M192 680q18 46 36 0" stroke="#fbbf24" stroke-opacity=".6"/></g>
    </g>
    <g stroke="#8f9db4" stroke-width="1" fill="none" stroke-opacity=".7"><path d="M60 24v586M54 24h12M54 610h12"/><path d="M360 238h40M360 610h40M380 238v372M374 238h12M374 610h12"/></g>
-   <g fill="#8f9db4" font-size="11" font-family="Nunito,sans-serif" letter-spacing="2"><text x="32" y="320" transform="rotate(-90 32 320)">H · 58 M</text><text x="388" y="428" transform="rotate(90 388 428)">CUERPO · 3.7 M</text></g></svg>`;
+   <g fill="#8f9db4" font-size="11" font-family="Nunito,sans-serif" letter-spacing="2"><text x="32" y="320" transform="rotate(-90 32 320)">H · 58 M</text><text x="388" y="428" transform="rotate(90 388 428)">${t('CUERPO')} · 3.7 M</text></g></svg>`;
 }

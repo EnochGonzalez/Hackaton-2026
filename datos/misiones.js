@@ -3,6 +3,9 @@
    Forma B: la órbita viene en el contrato, el jugador no la elige.
    need(instrumentos, seleccion) -> true si el diseño cumple el contrato.
    ============================================================ */
+import {traducirLista, traducirMapa} from '../idioma/idioma.js';
+import {EN_DATOS} from '../idioma/en-datos.js';
+
 export const ORB  = {sso:'Heliosíncrona (SSO · 705 km)', leo:'Órbita baja (LEO · 540 km)', geo:'Geoestacionaria (GEO · 35 786 km)', l2:'Punto de Lagrange L2 (1.5 millones de km)'};
 export const ORBS = {sso:'SSO', leo:'LEO', geo:'GEO', l2:'L2'};
 
@@ -49,5 +52,10 @@ export const MISIONES = [
    need:i=>i.some(x=>x.id==='nircam')&&i.length>=2, needTxt:'El contrato pide el espejo origami de 6.5 m y al menos dos instrumentos.',
    real:'El Telescopio Espacial James Webb (JWST), lanzado en diciembre de 2021.'},
 ];
+
+/* Inglés: reemplaza textos (ver idioma/en-datos.js) */
+traducirMapa(ORB, EN_DATOS.orb);
+traducirLista(CATEGORIAS, EN_DATOS.categorias);
+traducirLista(MISIONES, EN_DATOS.misiones);
 
 export const mision = id => MISIONES.find(m => m.id === id);

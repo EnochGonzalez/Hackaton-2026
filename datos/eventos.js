@@ -1,5 +1,8 @@
 /* Eventos de la operación. sci: meses de ciencia que suma o resta · cash: unidades de presupuesto de operación
    hp: salud de la nave · risk: probabilidad de que salga mal · q: calidad de la decisión (0 a 1) */
+import {EN_INGLES} from '../idioma/idioma.js';
+import {EN_DATOS} from '../idioma/en-datos.js';
+
 export const EV={
  storm:{t:'Tormenta solar',q:'Una eyección de masa coronal se acerca. La electrónica está en riesgo.',o:[
   {n:'Apagar los instrumentos dos semanas',d:'Nave segura, pierdes ciencia.',hint:'Es la opción segura: no arriesga la nave.',sci:-.5,q:.6},
@@ -30,6 +33,13 @@ export const EV={
   {n:'Seguir el programa',d:'Sin cambios.',hint:'No cambia nada.',sci:0,q:.6},
   {n:'Observarla con tiempo reducido',d:'Ciencia moderada.',hint:'Gana algo sin alterar el plan.',sci:.3,q:.8}]}
 };
+
+/* Inglés: título, pregunta y textos de cada opción (ver idioma/en-datos.js) */
+if (EN_INGLES) Object.entries(EN_DATOS.eventos).forEach(([id, e]) => {
+  if (!EV[id]) return;
+  EV[id].t = e.t; EV[id].q = e.q;
+  e.o.forEach((x, i) => { const o = EV[id].o[i]; Object.assign(o, {n: x[0], d: x[1], hint: x[2]}); if (o.risk && x[3]) o.risk.msg = x[3]; });
+});
 
 /* Meses en los que ocurre un evento */
 export const MESES_EVENTO = [2, 5, 8, 11];

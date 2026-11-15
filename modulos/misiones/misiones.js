@@ -5,6 +5,7 @@ import {DIF, aplicarDificultad} from '../../datos/dificultades.js';
 import {fmt} from '../../nucleo/calc.js';
 import {cargarPartida, misionDe, hayProgreso, esLaMisma, cargarDificultad, guardarDificultad, guardarPendiente, cargarMarcador} from '../../compartido/estado.js';
 import {ir, activarEnlaces} from '../../compartido/nav.js';
+import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
 const partida = cargarPartida(), enCurso = hayProgreso(partida), marcas = cargarMarcador();
@@ -17,16 +18,16 @@ function pintar() {
     const filas = abierta !== c.id ? '' : MISIONES.filter(m => m.cat === c.id).map(m0 => {
       const m = aplicarDificultad(m0, dif), esta = enCurso && esLaMisma(partida, m.id, dif), mejor = marcas[m.id];
       return `<div class="mrow"><div class="tt">
-          <b>${m.n}${esta ? '<span class="best curso">EN CURSO</span>' : ''}${mejor ? `<span class="best">MEJOR ${mejor.grade} · ${mejor.total}</span>` : ''}</b>
-          <span>${fmt(m.budget)} MDD · PLAZO ${m.deadline} MESES · ÓRBITA ${ORBS[m.orbit]}</span></div>
-        ${esta ? '<button class="btn" data-ir="taller">CONTINUAR</button>' : `<button class="go" data-aceptar="${m.id}">ACEPTAR</button>`}</div>`;
+          <b>${m.n}${esta ? `<span class="best curso">${t('EN CURSO')}</span>` : ''}${mejor ? `<span class="best">${t('MEJOR')} ${mejor.grade} · ${mejor.total}</span>` : ''}</b>
+          <span>${t('{b} MDD · PLAZO {p} MESES · ÓRBITA {o}', {b: fmt(m.budget), p: m.deadline, o: ORBS[m.orbit]})}</span></div>
+        ${esta ? `<button class="btn" data-ir="taller">${t('CONTINUAR')}</button>` : `<button class="go" data-aceptar="${m.id}">${t('ACEPTAR')}</button>`}</div>`;
     }).join('');
     return `<button class="cat" data-cat="${c.id}"><span>${c.n}</span><small>${abierta === c.id ? '▲' : '▼'} ${c.txt}</small></button>${filas}`;
   }).join('');
-  app.innerHTML = `<button class="back" data-ir="inicio">‹ INICIO</button>
+  app.innerHTML = `<button class="back" data-ir="inicio">‹ ${t('INICIO')}</button>
     <div class="mis paper">
-      ${enCurso ? `<div class="warnbar"><b>Tienes una misión en curso: ${misionDe(partida).n} (${DIF[partida.dif].n}).</b> Si inicias una misión nueva, el progreso de tu taller se puede perder.</div>` : ''}
-      <div class="difbar"><div class="lbl">Dificultad</div><div class="seg">${selector}</div><p>${DIF[dif].txt}</p></div>
+      ${enCurso ? `<div class="warnbar"><b>${t('Tienes una misión en curso: {n} ({d}).', {n: misionDe(partida).n, d: DIF[partida.dif].n})}</b> ${t('Si inicias una misión nueva, el progreso de tu taller se puede perder.')}</div>` : ''}
+      <div class="difbar"><div class="lbl">${t('Dificultad')}</div><div class="seg">${selector}</div><p>${DIF[dif].txt}</p></div>
       ${lista}
     </div>`;
 }

@@ -2,6 +2,7 @@
    COMPONENTES HTML reutilizables (devuelven texto HTML)
    ============================================================ */
 import {fmt, nivel} from '../nucleo/calc.js';
+import {t} from '../idioma/idioma.js';
 
 /* --- Íconos de línea (SVG 48x48). Para cambiar uno, edita su trazo. --- */
 const IC = {
@@ -40,15 +41,15 @@ export function barra(etiqueta, valor, pct, estado) {
 /* Las 4 barras de siempre. Con ops, el presupuesto incluye el gasto de operación. */
 export function barrasHTML(o, ops) {
   const gasto = ops ? o.cost + ops.spent : o.cost, pctGasto = gasto / o.M.budget * 100;
-  return barra('Peso', `${fmt(o.mass)} / ${o.cap ? fmt(o.cap) : '–'} kg`, o.massPct, nivel(o.massPct))
-    + barra('Potencia', `${fmt(o.use)} / ${fmt(o.gen)} W`, o.enPct, nivel(o.enPct))
-    + barra('Datos', `${o.dg.toFixed(0)} / ${o.send} Mbps`, o.dataPct, o.dataPct > 200 ? 'bad' : o.dataPct > 100 ? 'warn' : 'ok')
-    + barra('Presupuesto', `$${fmt(gasto)} / ${fmt(o.M.budget)} M`, pctGasto, nivel(pctGasto));
+  return barra(t('Peso'), `${fmt(o.mass)} / ${o.cap ? fmt(o.cap) : '–'} kg`, o.massPct, nivel(o.massPct))
+    + barra(t('Potencia'), `${fmt(o.use)} / ${fmt(o.gen)} W`, o.enPct, nivel(o.enPct))
+    + barra(t('Datos'), `${o.dg.toFixed(0)} / ${o.send} Mbps`, o.dataPct, o.dataPct > 200 ? 'bad' : o.dataPct > 100 ? 'warn' : 'ok')
+    + barra(t('Presupuesto'), `$${fmt(gasto)} / ${fmt(o.M.budget)} M`, pctGasto, nivel(pctGasto));
 }
 
 export const indicadoresHTML = o => `<div class="ind">
-  <div class="${o.rel >= 90 ? 'ok' : o.rel >= 75 ? 'warn' : 'bad'}"><small>Confiabilidad</small><b>${o.rel}%</b></div>
-  <div class="${o.months > o.M.deadline ? 'bad' : 'ok'}"><small>Construcción</small><b>${o.months}/${o.M.deadline} m</b></div></div>`;
+  <div class="${o.rel >= 90 ? 'ok' : o.rel >= 75 ? 'warn' : 'bad'}"><small>${t('Confiabilidad')}</small><b>${o.rel}%</b></div>
+  <div class="${o.months > o.M.deadline ? 'bad' : 'ok'}"><small>${t('Construcción')}</small><b>${o.months}/${o.M.deadline} m</b></div></div>`;
 
-export const enlacesAyuda = () => `<div class="mini"><button data-ir="glosario">GLOSARIO</button><button data-ir="como-jugar">CÓMO JUGAR</button></div>`;
+export const enlacesAyuda = () => `<div class="mini"><button data-ir="glosario">${t('GLOSARIO')}</button><button data-ir="como-jugar">${t('CÓMO JUGAR')}</button></div>`;
 export const limpio = txt => String(txt).replace(/[<>"&]/g, '');

@@ -8,6 +8,7 @@ import {reporteFalla} from '../../nucleo/puntuacion.js';
 import {guardarPartida, misionDe, reiniciarVuelo} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {coheteSVG} from '../../compartido/nave-svg.js';
+import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
 const partida = exigirPartida();
@@ -15,9 +16,9 @@ if (partida) {
   const M = misionDe(partida), o = calc(M, partida.sel);
   const resultado = () => {
     const L = partida.lanz;
-    app.innerHTML = `<div class="lau"><div class="box"><h2>${L.ok ? 'Lanzamiento exitoso' : 'Falla de lanzamiento'}</h2>
-      ${L.ok ? `La nave llegó a la órbita ${ORBS[M.orbit]}. Tenías ${L.chance}% de probabilidad de éxito.` : `Con ${L.chance}% de probabilidad, esta vez no salió bien. Sube la confiabilidad con pruebas en Tierra o usa una Fase 1 más confiable, y reintenta.`}
-      <div class="acciones">${L.ok ? '<button class="btn go2" data-ir="operaciones">INICIAR OPERACIÓN</button>' : '<button class="btn" id="reintentar">VOLVER AL TALLER</button><button class="btn light" data-ir="reporte">VER REPORTE</button>'}</div></div></div>`;
+    app.innerHTML = `<div class="lau"><div class="box"><h2>${L.ok ? t('Lanzamiento exitoso') : t('Falla de lanzamiento')}</h2>
+      ${L.ok ? t('La nave llegó a la órbita {o}. Tenías {p}% de probabilidad de éxito.', {o: ORBS[M.orbit], p: L.chance}) : t('Con {p}% de probabilidad, esta vez no salió bien. Sube la confiabilidad con pruebas en Tierra o usa una Fase 1 más confiable, y reintenta.', {p: L.chance})}
+      <div class="acciones">${L.ok ? `<button class="btn go2" data-ir="operaciones">${t('INICIAR OPERACIÓN')}</button>` : `<button class="btn" id="reintentar">${t('VOLVER AL TALLER')}</button><button class="btn light" data-ir="reporte">${t('VER REPORTE')}</button>`}</div></div></div>`;
   };
   activarEnlaces();
   app.addEventListener('click', e => { if (e.target.id === 'reintentar') { reiniciarVuelo(partida); guardarPartida(partida); ir('taller'); } });
@@ -29,7 +30,7 @@ if (partida) {
     const tic = () => {
       n--;
       if (n > 0) { document.querySelector('#cd').textContent = n; setTimeout(tic, 600); return; }
-      app.innerHTML = `<div class="lau"><div class="rk">${coheteSVG(o, null, false)}</div><div class="cd">¡DESPEGUE!</div></div>`;
+      app.innerHTML = `<div class="lau"><div class="rk">${coheteSVG(o, null, false)}</div><div class="cd">${t('¡DESPEGUE!')}</div></div>`;
       setTimeout(() => {
         const ok = Math.random() * 100 < o.chance;
         partida.lanz = {ok, chance: o.chance};

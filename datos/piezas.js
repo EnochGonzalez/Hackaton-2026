@@ -21,6 +21,9 @@
    Solo adcs:     prec (precisión que da, 1 a 4)
    Solo prop:     minGen (W mínimos de paneles)
    ============================================================ */
+import {traducirLista, traducirMapa} from '../idioma/idioma.js';
+import {EN_DATOS} from '../idioma/en-datos.js';
+
 export const PIEZAS = [
   // ---------- PARTE 1: CHASIS ----------
   {cat:'chasis',id:'cube',n:'Chasis CubeSat 6U / 12U',only:'ojo',orb:['sso','leo'],m:8,w:5,c:1.5,t:3,slots:1,diam:.3,maxS:10,
@@ -168,5 +171,11 @@ export const PASOS = [
   {id:'soporte', n:'SOPORTE', cats:['termico','adcs','comms','prop'],ayuda:'Térmico (puedes combinar varios), apuntamiento, comunicaciones y propulsión.'},
   {id:'cohete',  n:'COHETE',  cats:['f1','boosters','etapa','cofia'],ayuda:'Arma el cohete por partes, de abajo hacia arriba.'},
 ];
+
+/* Inglés: reemplaza nombres y textos (ver idioma/en-datos.js) */
+traducirLista(PIEZAS, EN_DATOS.piezas);
+traducirLista(PRUEBAS, EN_DATOS.pruebas);
+traducirLista(PASOS, EN_DATOS.pasos);
+traducirMapa(NOMBRE_CAT, EN_DATOS.nombreCat);
 
 export const pieza = id => PIEZAS.find(p => p.id === id);

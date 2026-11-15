@@ -8,6 +8,7 @@ import {guardarPartida, misionDe} from '../../compartido/estado.js';
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {icoPieza, barrasHTML, indicadoresHTML, enlacesAyuda} from '../../compartido/componentes.js';
 import {naveSVG, coheteSVG} from '../../compartido/nave-svg.js';
+import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
 /* En pantallas táctiles o angostas no hay columna de información fija ni hover:
@@ -34,43 +35,43 @@ function iniciar() {
 
   function infoHTML() {
     const paso = PASOS[partida.paso];
-    if (!sobre) return `<div class="vacio"><h4>Taller</h4>${paso.ayuda}<p>Pasa el cursor sobre una pieza para ver sus datos. Las casillas punteadas no sirven para este contrato.</p></div>`;
+    if (!sobre) return `<div class="vacio"><h4>${t('Taller')}</h4>${paso.ayuda}<p>${t('Pasa el cursor sobre una pieza para ver sus datos. Las casillas punteadas no sirven para este contrato.')}</p></div>`;
     const it = buscar(sobre.cat, sobre.id), razon = razonBloqueo(it, sobre.cat, M, sel);
     const fila = (k, v) => v ? `<div class="k"><span>${k}</span><b class="mono">${v}</b></div>` : '';
-    let filas = fila('Categoría', NOMBRE_CAT[sobre.cat]);
+    let filas = fila(t('Categoría'), NOMBRE_CAT[sobre.cat]);
     if (esCohete(sobre.cat)) {
       const caps = sobre.cat === 'f1' ? it.caps.none : sobre.cat === 'boosters' && sel.f1 ? parteCohete('f1', sel.f1).caps[it.id] : null;
-      filas += fila('Costo', '$' + fmt(it.c) + ' M') + (caps ? fila('Capacidad a ' + ORBS[M.orbit], caps[M.orbit] ? fmt(caps[M.orbit]) + ' kg' : 'No llega') : '')
-        + fila('Éxito histórico', it.rel ? (it.rel * 100).toFixed(1) + '%' : '') + fila('Impulso (Isp)', it.isp ? it.isp + ' s' : '') + fila('Diámetro útil', it.diam ? it.diam + ' m' : '');
+      filas += fila(t('Costo'), '$' + fmt(it.c) + ' M') + (caps ? fila(t('Capacidad a {o}', {o: ORBS[M.orbit]}), caps[M.orbit] ? fmt(caps[M.orbit]) + ' kg' : t('No llega')) : '')
+        + fila(t('Éxito histórico'), it.rel ? (it.rel * 100).toFixed(1) + '%' : '') + fila(t('Impulso (Isp)'), it.isp ? it.isp + ' s' : '') + fila(t('Diámetro útil'), it.diam ? it.diam + ' m' : '');
     } else {
-      filas += fila('Peso', fmt(it.m) + ' kg') + fila('Potencia', it.gen ? 'genera ' + fmt(it.gen) + ' W' : it.w ? '-' + it.w + ' W' : '')
-        + fila('Datos', it.mbps ? it.mbps + ' Mbps' : '') + fila('Ciencia', it.sci ? it.sci + ' pts' : '') + fila('Temperatura', it.temp ? 'exige ' + it.temp + ' K' : it.tempMin ? 'logra ' + it.tempMin + ' K' : '')
-        + fila('Ranuras', it.slots) + fila('Diámetro', it.diam ? it.diam + ' m' : '') + fila('Confiabilidad', it.rel ? (it.rel > 0 ? '+' : '') + it.rel : '')
-        + fila('Tiempo', it.t + (it.t === 1 ? ' mes' : ' meses')) + fila('Costo', '$' + fmt(it.c) + ' M');
+      filas += fila(t('Peso'), fmt(it.m) + ' kg') + fila(t('Potencia'), it.gen ? t('genera {w} W', {w: fmt(it.gen)}) : it.w ? '-' + it.w + ' W' : '')
+        + fila(t('Datos'), it.mbps ? it.mbps + ' Mbps' : '') + fila(t('Ciencia'), it.sci ? it.sci + ' pts' : '') + fila(t('Temperatura'), it.temp ? t('exige {k} K', {k: it.temp}) : it.tempMin ? t('logra {k} K', {k: it.tempMin}) : '')
+        + fila(t('Ranuras'), it.slots) + fila(t('Diámetro'), it.diam ? it.diam + ' m' : '') + fila(t('Confiabilidad'), it.rel ? (it.rel > 0 ? '+' : '') + it.rel : '')
+        + fila(t('Tiempo'), it.t === 1 ? t('1 mes') : t('{n} meses', {n: it.t})) + fila(t('Costo'), '$' + fmt(it.c) + ' M');
     }
     let acciones = '';
     if (MODO_TOQUE.matches) {
       const activa = elegida(sobre.cat, sobre.id);
       const boton = razon && !activa ? ''
-        : activa && esCohete(sobre.cat) ? '<button class="btn" disabled>ELEGIDA ✓</button>'
-        : `<button class="btn ${activa ? 'light' : 'go2'}" data-accion="elegir">${activa ? 'QUITAR' : 'ELEGIR'}</button>`;
-      acciones = `<div class="acc">${boton}<button class="btn light" data-accion="cerrar">CERRAR</button></div>`;
+        : activa && esCohete(sobre.cat) ? `<button class="btn" disabled>${t('ELEGIDA')} ✓</button>`
+        : `<button class="btn ${activa ? 'light' : 'go2'}" data-accion="elegir">${activa ? t('QUITAR') : t('ELEGIR')}</button>`;
+      acciones = `<div class="acc">${boton}<button class="btn light" data-accion="cerrar">${t('CERRAR')}</button></div>`;
     }
     return `<h4>${it.n}</h4>${filas}<p>${it.txt || ''}</p>${razon ? `<div class="why">${razon}</div>` : ''}${acciones}`;
   }
 
   function pintar() {
     const o = calc(M, sel), paso = PASOS[partida.paso], enCohete = paso.id === 'cohete';
-    const pestanas = PASOS.map((p, i) => `<button class="stp ${i === partida.paso ? 'on' : ''}" data-paso="${i}">${p.n}</button>`).join('') + '<button class="stp" data-ir="revision">REVISIÓN</button>';
+    const pestanas = PASOS.map((p, i) => `<button class="stp ${i === partida.paso ? 'on' : ''}" data-paso="${i}">${p.n}</button>`).join('') + `<button class="stp" data-ir="revision">${t('REVISIÓN')}</button>`;
     let izquierda;
     if (enCohete) {
       const cat = ORDEN_COHETE[partida.sub];
-      const sub = ORDEN_COHETE.map((c, i) => `<button class="${i === partida.sub ? 'on' : ''} ${sel[c] ? 'hecho' : ''}" data-sub="${i}" ${i > 0 && !sel[ORDEN_COHETE[i - 1]] ? 'disabled' : ''}><i>${sel[c] ? '✓' : i + 1}</i>${['FASE 1', 'BOOSTERS', 'FASE 2', 'COFIA'][i]}</button>`).join('');
-      izquierda = `<h3>Arma el cohete de abajo hacia arriba</h3><div class="sub">${sub}</div><h3>${NOMBRE_CAT[cat]}</h3><div class="grid">${opciones(cat, M).map(it => casilla(it, cat)).join('')}</div>`;
+      const sub = ORDEN_COHETE.map((c, i) => `<button class="${i === partida.sub ? 'on' : ''} ${sel[c] ? 'hecho' : ''}" data-sub="${i}" ${i > 0 && !sel[ORDEN_COHETE[i - 1]] ? 'disabled' : ''}><i>${sel[c] ? '✓' : i + 1}</i>${t(['FASE 1', 'BOOSTERS', 'FASE 2', 'COFIA'][i])}</button>`).join('');
+      izquierda = `<h3>${t('Arma el cohete de abajo hacia arriba')}</h3><div class="sub">${sub}</div><h3 data-titulo="${cat}">${NOMBRE_CAT[cat]}</h3><div class="grid" data-grid="${cat}">${opciones(cat, M).map(it => casilla(it, cat)).join('')}</div>`;
     } else {
-      izquierda = paso.cats.map(c => `<h3>${NOMBRE_CAT[c]}${c === 'instr' ? ` · caben ${o.ch ? o.ch.slots : '?'}` : c === 'termico' ? ' · puedes combinar' : ''}</h3><div class="grid">${opciones(c, M).map(it => casilla(it, c)).join('')}</div>`).join('');
+      izquierda = paso.cats.map(c => `<h3 data-titulo="${c}">${NOMBRE_CAT[c]}${c === 'instr' ? ' · ' + t('caben {n}', {n: o.ch ? o.ch.slots : '?'}) : c === 'termico' ? ' · ' + t('puedes combinar') : ''}</h3><div class="grid" data-grid="${c}">${opciones(c, M).map(it => casilla(it, c)).join('')}</div>`).join('');
     }
-    app.innerHTML = `<button class="back" data-ir="inicio">‹ INICIO</button>
+    app.innerHTML = `<button class="back" data-ir="inicio">‹ ${t('INICIO')}</button>
       <div class="top"><span class="mname">${M.n} · ${ORBS[M.orbit]}</span><div class="steps">${pestanas}</div></div>
       <div class="taller">
         <div class="resumen">${barrasHTML(o)}</div>
@@ -79,8 +80,8 @@ function iniciar() {
         <div class="stage">${enCohete ? coheteSVG(o, ORDEN_COHETE[partida.sub]) : naveSVG(o)}</div>
         <div class="right"><h3>${M.n}</h3>${barrasHTML(o)}${indicadoresHTML(o)}</div>
       </div>
-      <div class="nav">${partida.paso > 0 ? '<button class="btn light" data-paso="' + (partida.paso - 1) + '">‹ ATRÁS</button>' : ''}
-        ${enCohete ? '<button class="btn" data-ir="revision">REVISAR ›</button>' : '<button class="btn" data-paso="' + (partida.paso + 1) + '">SIGUIENTE ›</button>'}</div>
+      <div class="nav">${partida.paso > 0 ? `<button class="btn light" data-paso="${partida.paso - 1}">‹ ${t('ATRÁS')}</button>` : ''}
+        ${enCohete ? `<button class="btn" data-ir="revision">${t('REVISAR')} ›</button>` : `<button class="btn" data-paso="${partida.paso + 1}">${t('SIGUIENTE')} ›</button>`}</div>
       ${enlacesAyuda()}<div class="velo"></div>`;
   }
 
@@ -139,4 +140,16 @@ function iniciar() {
   /* Si la ventana cambia entre escritorio y táctil, se vuelve a pintar con el modo correcto */
   MODO_TOQUE.addEventListener('change', () => { sobre = null; pintar(); });
   pintar();
+
+  /* Si se llegó desde un punto de la revisión, se señala la categoría a corregir */
+  if (partida.resaltar) {
+    const cat = partida.resaltar;
+    delete partida.resaltar; guardarPartida(partida);
+    const titulo = document.querySelector(`[data-titulo="${cat}"]`), grid = document.querySelector(`[data-grid="${cat}"]`);
+    if (titulo && grid) {
+      titulo.scrollIntoView({block: 'center'});
+      [titulo, grid].forEach(el => el.classList.add('resaltado'));
+      setTimeout(() => [titulo, grid].forEach(el => el.classList.remove('resaltado')), 2600);
+    }
+  }
 }

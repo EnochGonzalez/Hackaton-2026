@@ -6,9 +6,10 @@ import {PIEZAS, PRUEBAS, pieza} from '../datos/piezas.js';
 import {PARTES_COHETE, ORDEN_COHETE, parteCohete, capacidad} from '../datos/cohete.js';
 import {ORBS} from '../datos/misiones.js';
 import {validar} from './validacion.js';
+import {t, LOCALE} from '../idioma/idioma.js';
 
 export const suma = (lista, campo) => lista.reduce((s, x) => s + (x[campo] || 0), 0);
-export const fmt  = n => Math.round(n).toLocaleString('es-MX');
+export const fmt  = n => Math.round(n).toLocaleString(LOCALE);
 export const nivel = (pct, aviso = 85, tope = 100) => pct > tope ? 'bad' : pct > aviso ? 'warn' : 'ok';
 
 /* Selección vacía de una partida nueva */
@@ -29,15 +30,15 @@ export function opciones(cat, M) {
 export function razonBloqueo(it, cat, M, sel) {
   if (esCohete(cat)) {
     const paso = ORDEN_COHETE.indexOf(cat);
-    if (paso > 0 && !sel[ORDEN_COHETE[paso - 1]]) return 'Primero elige la parte anterior del cohete.';
+    if (paso > 0 && !sel[ORDEN_COHETE[paso - 1]]) return t('Primero elige la parte anterior del cohete.');
     const f1 = parteCohete('f1', sel.f1);
-    if (cat === 'boosters' && !(it.id in f1.caps)) return `No se acopla a ${f1.n}.`;
-    if (cat === 'etapa' && !f1.etapas.includes(it.id)) return `No es compatible con ${f1.n}.`;
-    if (cat === 'cofia' && !f1.cofias.includes(it.id)) return `No se monta sobre ${f1.n}.`;
+    if (cat === 'boosters' && !(it.id in f1.caps)) return t('No se acopla a {n}.', {n: f1.n});
+    if (cat === 'etapa' && !f1.etapas.includes(it.id)) return t('No es compatible con {n}.', {n: f1.n});
+    if (cat === 'cofia' && !f1.cofias.includes(it.id)) return t('No se monta sobre {n}.', {n: f1.n});
     return null;
   }
-  if (it.only && it.only !== M.cat) return 'No es compatible con este tipo de misión.';
-  if (it.orb && !it.orb.includes(M.orbit)) return `No funciona en la órbita del contrato (${ORBS[M.orbit]}).`;
+  if (it.only && it.only !== M.cat) return t('No es compatible con este tipo de misión.');
+  if (it.orb && !it.orb.includes(M.orbit)) return t('No funciona en la órbita del contrato ({o}).', {o: ORBS[M.orbit]});
   return null;
 }
 

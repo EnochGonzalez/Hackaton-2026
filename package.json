@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "start": "npx serve .",
-    "test": "node pruebas/nucleo.test.js"
+    "test": "node pruebas/nucleo.test.js && node pruebas/idioma.test.js"
   }
 }

@@ -1,5 +1,8 @@
 /* Glosario en dos secciones: [título, [[icono, término, definición], ...]] */
-export const GLO=[
+import {EN_INGLES} from '../idioma/idioma.js';
+import {EN_DATOS} from '../idioma/en-datos.js';
+
+const GLO_ES=[
  ['Ingeniería de la misión',[
   ['chasis','Bus (chasis)','La estructura de la nave. Define cuánta masa base tiene y cuántos instrumentos caben (ranuras).'],
   ['energia','Potencia (W)','La energía que generan los paneles solares frente a la que consumen las piezas. Si consumes más de lo que generas, la nave se apaga.'],
@@ -27,3 +30,6 @@ export const GLO=[
   ['sun','Parasol y criocooler','Parasol: bloquea el calor del Sol y la Tierra. Criocooler: enfría los sensores infrarrojos a pocos grados sobre el cero absoluto.'],
   ['instr','NIRCam / NIRSpec / MIRI','Los instrumentos infrarrojos del James Webb: cámara, espectrógrafo y cámara de infrarrojo medio.'],
   ['chasis','EOS','Sistema de Observación de la Tierra de la NASA: red de más de 20 satélites que vigila el planeta.']]]];
+
+/* En inglés se usa el glosario completo de idioma/en-datos.js */
+export const GLO = EN_INGLES ? EN_DATOS.glosario : GLO_ES;

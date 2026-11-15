@@ -79,3 +79,8 @@
   .stage{height:240px}
   .info{max-height:85vh;padding-left:18px;padding-right:18px}
 }
+
+/* Categoría señalada al llegar desde un punto de la revisión */
+.gridwrap h3.resaltado{color:var(--warn)}
+.grid.resaltado{border-radius:var(--radio);animation:resaltarGrid 2.4s ease}
+@keyframes resaltarGrid{0%,70%{box-shadow:0 0 0 2px var(--warn),0 0 24px rgba(251,191,36,.25);background:rgba(251,191,36,.06)}100%{box-shadow:0 0 0 0 transparent}}

@@ -98,3 +98,18 @@
   .stp,.seg button{display:inline-flex;align-items:center;justify-content:center}
   .back,.mini button{display:inline-flex;align-items:center}
 }
+
+/* Botón de idioma ES | EN (lo agrega idioma/idioma.js en todas las páginas) */
+.idioma{position:fixed;right:40px;top:28px;z-index:40;display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:3px}
+.idioma button{padding:5px 10px;border-radius:6px;font-weight:800;letter-spacing:.08em;font-size:12.5px;color:var(--mut)}
+.idioma button:hover{color:var(--tx)}
+.idioma button.on{background:var(--blue);color:#fff}
+@media (max-width:1100px),(max-height:600px){
+  .idioma{position:absolute;right:24px;top:18px}
+}
+@media (max-width:700px){
+  .idioma{right:14px;top:12px}
+}
+@media (pointer:coarse){
+  .idioma button{min-height:38px;min-width:42px}
+}
