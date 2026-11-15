@@ -1,0 +1,7 @@
+.ctx{position:absolute;left:50%;transform:translateX(-50%);top:84px;width:min(920px,74vw);max-height:calc(100vh - 110px);overflow:auto;padding:28px 36px}
+.ctx h2{font-size:32px;margin-bottom:6px}
+.ctx p{font-size:18px;line-height:1.5;margin-bottom:14px;color:var(--tx2)}
+.ctx .chips{margin:10px 0 20px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ctx .warnbar{margin:6px 0 16px;border-radius:10px}
+.acciones{display:flex;gap:12px}

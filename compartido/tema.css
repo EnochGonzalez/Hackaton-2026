@@ -1,0 +1,31 @@
+/* ============================================================
+   TEMA: colores, tipografía y fondo. Dan y Fer: cambien aquí
+   las variables y todo el juego cambia de aspecto.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap');
+:root{
+  --bg:#0a0f1c;            /* fondo general */
+  --panel:#111a2e;         /* paneles y tarjetas */
+  --panel2:#18233a;        /* tarjetas dentro de un panel */
+  --hondo:#0b1324;         /* huecos: pistas de barras, indicadores */
+  --line:rgba(148,163,184,.22);
+  --tx:#e6ebf4;            /* texto principal */
+  --tx2:#c4cede;           /* texto de párrafos */
+  --mut:#8f9db4;           /* texto secundario */
+  --acc:#38bdf8;           /* acento (cian) */
+  --blue:#2563eb;          /* botón principal */
+  --go:#10b981;            /* botón de aceptar / lanzar */
+  --ok:#34d399; --warn:#fbbf24; --bad:#f87171;   /* semáforo */
+  --fuente:'Nunito','Segoe UI',system-ui,sans-serif;
+  --radio:12px;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:var(--fuente);font-weight:600;color:var(--tx);overflow:hidden;min-width:1100px;position:relative;background:var(--bg);
+  background-image:radial-gradient(900px 520px at 78% 55%,rgba(37,99,235,.22),transparent 70%),radial-gradient(700px 400px at 8% 0%,rgba(56,189,248,.10),transparent 70%),
+    linear-gradient(rgba(148,163,184,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.05) 1px,transparent 1px);
+  background-size:auto,auto,48px 48px,48px 48px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+h1,h2,h3{font-weight:800;letter-spacing:.01em}
+#app{position:absolute;inset:0;padding:28px 40px}
+.mono{font-variant-numeric:tabular-nums}

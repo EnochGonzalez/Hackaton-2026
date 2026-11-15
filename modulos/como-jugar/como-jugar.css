@@ -1,0 +1,7 @@
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.hw{display:flex;flex-direction:column;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:var(--radio);padding:16px 18px}
+.hw i{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:15px;background:var(--blue);font-style:normal;font-weight:800;margin-bottom:8px}
+.hw i.pt{padding:0 12px;background:transparent;border:1px solid var(--acc);color:var(--acc);font-size:15px}
+.hw b{display:block;font-size:17px;margin-bottom:4px}
+.hw span{font-size:14.5px;color:#b4c0d3;line-height:1.35}
+.page .lbl{margin:8px 0 10px}

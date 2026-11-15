@@ -1,0 +1,6 @@
+.tools{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+.tbl{width:100%;border-collapse:collapse;font-size:16px}
+.tbl th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 10px;border-bottom:1px solid var(--line)}
+.tbl .g{font-weight:800;color:var(--acc)}
+.vacio{color:var(--mut);padding:30px 0;text-align:center;font-size:17px}

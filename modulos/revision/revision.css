@@ -1,0 +1,14 @@
+.revwrap{position:absolute;left:50%;transform:translateX(-50%);top:92px;width:min(1120px,92vw);display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.rev{padding:16px 26px;max-height:calc(100vh - 180px);overflow:auto}
+.rev h2{font-size:22px;margin-bottom:6px}
+.vrow{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);align-items:start}
+.vrow b{display:block;font-size:16px;font-weight:800}
+.vrow span{font-size:14px;line-height:1.3;color:#b4c0d3}
+.dot{width:24px;height:24px;border-radius:50%;margin-top:2px;display:grid;place-items:center;color:#04130d;font-weight:800;font-size:14px}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.pruebas{margin:12px 0 4px}
+.pruebas small{display:block;color:var(--mut);font-size:13.5px;margin-top:6px}
+.launchbox{display:flex;flex-direction:column;gap:10px;text-align:center}
+.launchbox .p{font-size:15.5px;font-weight:700}
+.launchbox .btn{width:100%;padding:14px}
+.shipbox{height:120px}

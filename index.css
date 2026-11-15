@@ -1,0 +1,23 @@
+/* INICIO: título arriba, cohete al centro y tres tarjetas a cada lado */
+.brand{position:absolute;left:0;right:0;top:34px;text-align:center}
+.brand b{display:block;font-size:34px;letter-spacing:.24em;font-weight:800}
+.brand small{font-size:14px;color:var(--mut);letter-spacing:.1em;text-transform:uppercase}
+.hl,.hr{position:absolute;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px}
+.hl{right:calc(50% + 210px)}.hr{left:calc(50% + 210px)}
+.icon{display:flex;align-items:center;gap:16px;width:270px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radio);transition:border-color .15s,background .15s;text-align:left}
+.icon:hover:not(:disabled){border-color:var(--acc);background:var(--panel2)}
+.icon:disabled{opacity:.5;cursor:not-allowed}
+.icon svg{width:44px;height:44px;flex:none;fill:none;stroke-width:1.8}
+.icon span{font-weight:800;letter-spacing:.14em;font-size:17px}
+.icon small{display:block;font-size:13.5px;color:var(--mut);margin-top:2px}
+.whoc{display:flex;flex-direction:column;gap:8px;width:270px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radio)}
+.whoc label{font-size:12px;letter-spacing:.18em;color:var(--mut);font-weight:800}
+.whoc .fld{width:100%}
+.tip{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:14.5px;color:var(--mut)}
+/* Cohete y despegue */
+.hero{position:absolute;left:50%;bottom:2vh;height:80vh;transform:translateX(-50%);filter:drop-shadow(0 0 30px rgba(56,189,248,.18))}
+.hero.launch{animation:lift 1.7s cubic-bezier(.5,0,.9,.4) forwards}
+@keyframes lift{0%{transform:translate(-50%,0)}15%{transform:translate(-50%,6px)}100%{transform:translate(-50%,-135vh)}}
+.hero .fl{transform-box:fill-box;transform-origin:top}
+.hero.launch .fl{animation:fl .12s infinite alternate}
+@keyframes fl{from{transform:scaleY(1)}to{transform:scaleY(2.6)}}

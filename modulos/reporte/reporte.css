@@ -1,0 +1,12 @@
+.rep{position:absolute;left:50%;transform:translateX(-50%);width:min(1120px,90vw);top:70px;bottom:24px;display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:start}
+.rep .der{max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:14px}
+.grade{background:var(--panel);border:1px solid var(--line);border-radius:14px;text-align:center;padding:26px 10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.grade .g{font-size:130px;line-height:1;font-weight:800;color:var(--acc)}
+.grade .s{font-size:24px;font-weight:800}
+.grade small{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.grade .btn{margin-top:10px;width:200px}
+.why{margin-top:12px;font-size:15.5px;line-height:1.4;color:#b4c0d3}
+.why div{padding:7px 0;border-bottom:1px solid var(--line)}
+.lb b{font-size:18px}
+.lb p{font-size:15px;margin:6px 0 0}
+.lb .row{display:flex;gap:12px;align-items:center;margin-top:12px}
