@@ -336,4 +336,8 @@ export const EN = {
   'Tienes en curso <b>{a}</b> ({d}). Si inicias <b>{n}</b>, se borrará el diseño de tu taller.': 'You have <b>{a}</b> ({d}) in progress. If you start <b>{n}</b>, your workshop design will be erased.',
   'SEGUIR CON MI MISIÓN': 'KEEP MY MISSION',
   'SÍ, INICIAR NUEVA': 'YES, START NEW',
+
+  // ---------- Sonido ----------
+  'Activar sonido': 'Turn sound on',
+  'Silenciar': 'Mute',
 };

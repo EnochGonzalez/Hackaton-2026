@@ -4,6 +4,7 @@
    ============================================================ */
 import {cargarPartida} from './estado.js';
 import {montarBotonIdioma} from '../idioma/idioma.js';
+import {montarAudio} from './audio.js';
 
 const RAIZ = new URL('../', import.meta.url);
 export const ruta = mod => mod === 'inicio' ? new URL('index.html', RAIZ).href : new URL(`modulos/${mod}/${mod}.html`, RAIZ).href;
@@ -28,6 +29,7 @@ export function exigirPartida(fase) {
 /* Conecta todos los botones con data-ir="modulo" y data-volver */
 export function activarEnlaces(raiz = document) {
   montarBotonIdioma();
+  montarAudio();
   raiz.addEventListener('click', e => {
     const b = e.target.closest('[data-ir],[data-volver]');
     if (!b || b.disabled) return;

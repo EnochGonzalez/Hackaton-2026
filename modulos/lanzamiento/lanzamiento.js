@@ -9,6 +9,7 @@ import {guardarPartida, misionDe, reiniciarVuelo} from '../../compartido/estado.
 import {ir, exigirPartida, activarEnlaces} from '../../compartido/nav.js';
 import {coheteSVG} from '../../compartido/nave-svg.js';
 import {activarGuia} from '../../compartido/guia.js';
+import {efecto} from '../../compartido/audio.js';
 import {t} from '../../idioma/idioma.js';
 
 const app = document.querySelector('#app');
@@ -30,15 +31,18 @@ if (partida) {
     app.innerHTML = `<div class="lau"><div class="cd" id="cd">3</div></div>`;
     const tic = () => {
       n--;
-      if (n > 0) { document.querySelector('#cd').textContent = n; setTimeout(tic, 600); return; }
+      if (n > 0) { document.querySelector('#cd').textContent = n; efecto('bip'); setTimeout(tic, 600); return; }
+      efecto('bipFinal'); efecto('despegue');
       app.innerHTML = `<div class="lau"><div class="rk">${coheteSVG(o, null, false)}</div><div class="cd">${t('¡DESPEGUE!')}</div></div>`;
       setTimeout(() => {
         const ok = M.tuto || Math.random() * 100 < o.chance;      // el entrenamiento no falla
         partida.lanz = {ok, chance: o.chance};
         if (ok) partida.ops = nuevaOperacion(); else partida.rep = reporteFalla();
         guardarPartida(partida); resultado();
+        efecto(ok ? 'exito' : 'falla');
       }, 2000);
     };
+    efecto('bip');
     setTimeout(tic, 600);
   }
   activarGuia('lanzamiento');

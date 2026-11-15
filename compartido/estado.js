@@ -7,6 +7,7 @@
      missionControl.tabla       tabla de clasificación local
      missionControl.marcador    mejor resultado por misión
      missionControl.guia        avance de la guía del entrenamiento
+     missionControl.sonido      'off' si el jugador silenció el audio
    ============================================================ */
 import {mision} from '../datos/misiones.js';
 import {aplicarDificultad} from '../datos/dificultades.js';

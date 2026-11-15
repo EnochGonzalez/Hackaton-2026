@@ -3,6 +3,7 @@ import {cargarPartida, cargarComandante, guardarComandante, misionDe} from './co
 import {ir, activarEnlaces} from './compartido/nav.js';
 import {ico, limpio} from './compartido/componentes.js';
 import {heroeSVG} from './compartido/nave-svg.js';
+import {efecto} from './compartido/audio.js';
 import {t, tx} from './idioma/idioma.js';
 
 const partida = cargarPartida();
@@ -34,6 +35,7 @@ document.querySelector('#btnMisiones').addEventListener('click', () => {
   if (despegando) return;
   despegando = true;
   document.querySelector('.hero').classList.add('launch');
+  efecto('despegue');
   setTimeout(() => ir('misiones'), 1700);
 });
 /* Si el jugador regresa con el botón Atrás del navegador, el cohete vuelve a su sitio */
